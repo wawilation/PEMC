@@ -1,0 +1,23 @@
+TEMP_DATE=$(date --date='4 months ago' +%Y-%m-%d)
+DAY=$(date -d "$TEMP_DATE" '+%d')
+FINAL_DATE_c3mos=$(date -d "$TEMP_DATE + 26 days - $DAY days" +%Y-%m-%d)
+
+#get cut-off date for historical 13 mos
+TEMP_DATE=$(date --date='17 months ago' +%Y-%m-%d)
+DAY=$(date -d "$TEMP_DATE" '+%d')
+FINAL_DATE_h13mos=$(date -d "$TEMP_DATE + 26 days - $DAY days" +%Y-%m-%d)
+
+echo $FINAL_DATE_c3mos
+echo $FINAL_DATE_h13mos
+
+
+
+
+ALTER TABLE ONLY meterprocess.txn_stl_prelim_monthly_h13mos DROP CONSTRAINT IF EXISTS txn_stl_prelim_monthly_h13mos_ck; ALTER TABLE ONLY meterprocess.txn_stl_prelim_monthly_h13mos ADD CONSTRAINT txn_stl_prelim_monthly_h13mos_ck CHECK (reading_datetime < '$FINAL_DATE_c3mos');"
+
+
+INSERT INTO meterprocess.txn_stl_prelim_monthly_h13mos SELECT * FROM meterprocess.txn_stl_prelim_monthly_c3mos WHERE reading_datetime < '2018-07-26';
+
+set session_replication_role = replica; DELETE FROM meterprocess.txn_stl_prelim_monthly_c3mos A WHERE A.reading_datetime < '2018-07-26';
+
+ALTER TABLE ONLY meterprocess.txn_stl_prelim_monthly_c3mos DROP CONSTRAINT IF EXISTS txn_stl_prelim_monthly_c3mos_ck; ALTER TABLE ONLY meterprocess.txn_stl_prelim_monthly_c3mos ADD CONSTRAINT txn_stl_prelim_monthly_c3mos_ck CHECK (reading_datetime >= '2018-07-26'); ALTER TABLE ONLY meterprocess.txn_stl_prelim_monthly_h13mos DROP CONSTRAINT IF EXISTS txn_stl_prelim_monthly_h13mos_ck; ALTER TABLE ONLY meterprocess.txn_stl_prelim_monthly_h13mos ADD CONSTRAINT txn_stl_prelim_monthly_h13mos_ck CHECK (reading_datetime < '2018-07-26');

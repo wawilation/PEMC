@@ -1,0 +1,29 @@
+txn_bcq_header
+
+pg_dump -v -d crss_table_partitioning -t metering.txn_bcq_header -s -Fp -f /var/lib/pgsql/9.6/metering.txn_bcq_header.sql
+
+sudo cp /var/lib/pgsql/9.6/metering.txn_bcq_header.sql /home/pemc
+
+scp pemc@192.168.233.9:/home/pemc/metering.txn_bcq_header.sql .
+
+/******/
+pg_dump -v -d crss_table_partitioning -t metering.txn_bcq_data -s -Fp -f /var/lib/pgsql/9.6/metering.txn_bcq_data.sql
+
+sudo cp /var/lib/pgsql/9.6/metering.txn_bcq_data.sql /home/pemc
+
+scp pemc@192.168.233.9:/home/pemc/metering.txn_bcq_data.sql .
+/******/
+
+/******/
+pg_dump -v -d crss_table_partitioning -t metering.txn_bcq_upload_file -s -Fp -f /var/lib/pgsql/9.6/metering.txn_bcq_upload_file.sql
+
+sudo cp /var/lib/pgsql/9.6/metering.txn_bcq_upload_file.sql /home/pemc
+
+scp pemc@192.168.233.9:/home/pemc/metering.txn_bcq_upload_file.sql .
+/******/
+
+
+
+scp metering_txn_bcq_data_transfer.sh pemc@192.168.233.9:/home/pemc
+
+sudo cp /home/pemc/metering_txn_bcq_data_transfer.sh /var/lib/pgsql/9.6/

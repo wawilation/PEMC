@@ -1,0 +1,17 @@
+**DONE**1. fix bash script (bug) -> for meterprocess.txn_meter_validated_daily
+2. add dropping of constraint in the beginning
+3. put in force flag for gzip
+LOGGING-RELATED:
+4. Rename old variable names to these: FINAL_DATE_h13mos, FINAL_DATE_c3mos
+5. Change schema to current schema ("meterprocess" to "settlement") 
+6. Rename table names to current table names (used in the object column)
+7. Rename date to correct date (reading_datetime? billing_period_end?) 
+8. Rename date to correct date (created_datetime? run_date?)
+
+
+
+
+#drop check constraint
+/Postgres/edb/as9.6/bin/psql -p 5432 -U postgres -d crss -c "ALTER TABLE ONLY audit.audit_log_c3mos DROP CONSTRAINT IF EXISTS audit_log_c3mos_ck; ALTER TABLE ONLY audit.audit_log_h13mos DROP CONSTRAINT IF EXISTS audit_log_h13mos_ck;"
+
+if [ "$?" = "0" ]; then

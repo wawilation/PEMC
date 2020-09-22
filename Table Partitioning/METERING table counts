@@ -1,0 +1,27 @@
+Schema    |          Name            		
+----------+----------------------------+-------+----------
+ metering | databasechangelog 				- 12 rows
+ metering | databasechangeloglock 			- 1 row
+ metering | map_billing_id_tax_data 			- 0 row
+ metering | txn_bcq_data - X				- 97,236,946 rows
+ metering | txn_bcq_event_participant			- 0 rows
+ metering | txn_bcq_event_trading_date 			- 0 rows
+ metering | txn_bcq_header - X				- 178,582 rows
+ metering | txn_bcq_prohibited 				- 0 rows
+ metering | txn_bcq_special_event 			- 0 rows
+ metering | txn_bcq_upload_file - X			- 562 rows
+ metering | txn_meter_data_daily - X 			- 72,306,325 rows
+ metering | txn_meter_data_monthly - X   			- 106,202,009 rows
+ metering | txn_mq_manifest_file - X   			- 239,771 rows
+ metering | txn_mq_manifest_header - X   			- 1766 rows
+(14 rows)
+
+
+
+txn_bcq_data
+txn_bcq_header
+txn_bcq_upload_file
+txn_meter_data_daily
+txn_meter_data_monthly
+txn_mq_manifest_file
+txn_mq_manifest_header

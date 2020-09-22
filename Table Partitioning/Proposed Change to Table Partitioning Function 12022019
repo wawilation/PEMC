@@ -1,0 +1,16 @@
+select max(controldate) from partition_log where status = 'P' and controldate = (select max(controldate) from partition_log);
+
+
+select max(controldate) from partition_log where controldate = (select max(controldate) from partition_log);
+
+
+
+function date retriever: (current_date - interval '4 month') + interval '1 day' * (26 - extract(day from (current_date - interval '4 month')));
+
+select cutoffdate_c3mos from partition_log where controldate = (select max(controldate) from partition_log where status = 'P');
+
+
+
+select * from partition_log where controldate = (select max(controldate) from partition_log where status = 'P' and object = 'meterprocess.txn_meter_validated_monthly_h13mos');
+
+SELECT cutoffdate_c3mos FROM partition_log WHERE controldate = (SELECT max(controldate) FROM partition_log WHERE status = 'P' AND object = 'meterprocess.txn_meter_validated_monthly_h13mos');

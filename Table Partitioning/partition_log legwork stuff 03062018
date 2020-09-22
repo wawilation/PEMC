@@ -1,0 +1,273 @@
+scp test_partition_log.sh pemc@/var/lib/pgsql/9.6
+
+
+scp test_partition_log.sh pemc@192.168.233.9:/home/pemc
+
+sudo cp /home/pemc/test_partition_log.sh /var/lib/pgsql/9.6/
+
+
+
+22 12 * * * /var/lib/pgsql/9.6/test_partition_log.sh
+
+
+
+alter table txn_meter_validated_monthly_current3mos rename to txn_meter_validated_monthly_c3mos;
+
+alter table txn_meter_validated_monthly_historical13mos rename to txn_meter_validated_monthly_h13mos;
+alter table txn_meter_raw_mq_monthly_current3mos rename to txn_meter_raw_mq_monthly_c3mos;
+alter table txn_meter_raw_mq_monthly_historical13mos rename to txn_meter_raw_mq_monthly_h13mos;
+alter table txn_meter_ssla_mq_monthly_current3mos rename to txn_meter_ssla_mq_monthly_c3mos;
+alter table txn_meter_ssla_mq_monthly_historical13mos rename to txn_meter_ssla_mq_monthly_h13mos;
+
+
+
+
+SELECT COUNT(A.*)
+FROM meterprocess.txn_meter_validated_monthly_c3mos A JOIN meterprocess.txn_meter_raw_mq_monthly_c3mos B ON A.id = B.validated_id JOIN meterprocess.txn_meter_ssla_mq_monthly_c3mos C ON B.id = C.monthly_mq_id;
+
+SELECT COUNT(A.*)
+FROM meterprocess.txn_meter_validated_monthly_h13mos A JOIN meterprocess.txn_meter_raw_mq_monthly_h13mos B ON A.id = B.validated_id JOIN meterprocess.txn_meter_ssla_mq_monthly_h13mos C ON B.id = C.monthly_mq_id;
+
+
+select count(1) from meterprocess.txn_meter_validated_monthly_c3mos; --143680
+select count(1) from meterprocess.txn_meter_raw_mq_monthly_c3mos; --0
+select count(1) from meterprocess.txn_meter_ssla_mq_monthly_c3mos; --0
+
+select count(1) from meterprocess.txn_meter_validated_monthly_h13mos; --8738422
+select count(1) from meterprocess.txn_meter_raw_mq_monthly_h13mos; --18329984
+select count(1) from meterprocess.txn_meter_ssla_mq_monthly_h13mos; --4 
+
+
+SELECT COUNT(DISTINCT A.id)
+FROM meterprocess.txn_meter_validated_monthly_h13mos A JOIN meterprocess.txn_meter_raw_mq_monthly_h13mos B ON A.id = B.validated_id;
+--2087317
+
+SELECT COUNT(DISTINCT B.validated_id)
+FROM meterprocess.txn_meter_validated_monthly_h13mos A JOIN meterprocess.txn_meter_raw_mq_monthly_h13mos B ON A.id = B.validated_id;
+--2087317
+
+
+INSERT INTO meterprocess.txn_meter_validated_monthly_c3mos
+SELECT * FROM meterprocess.txn_meter_validated_monthly_h13mos WHERE id IN (SELECT DISTINCT A.id
+FROM meterprocess.txn_meter_validated_monthly_h13mos A JOIN meterprocess.txn_meter_raw_mq_monthly_h13mos B ON A.id = B.validated_id);
+--2,087,317
+
+/***INSERT INTO meterprocess.txn_meter_raw_mq_monthly_c3mos
+SELECT * FROM meterprocess.txn_meter_raw_mq_monthly_h13mos WHERE validated_id IN (SELECT DISTINCT B.validated_id
+FROM meterprocess.txn_meter_validated_monthly_h13mos A JOIN meterprocess.txn_meter_raw_mq_monthly_h13mos B ON A.id = B.validated_id);****/
+
+
+INSERT INTO meterprocess.txn_meter_raw_mq_monthly_c3mos
+SELECT * FROM meterprocess.txn_meter_raw_mq_monthly_h13mos;
+--18,329,984
+
+
+DELETE FROM txn_meter_validated_monthly_h13mos A WHERE A.id IN (SELECT B.id FROM txn_meter_validated_monthly_c3mos B)  
+
+
+
+
+------03/07/2018
+a=$RANDOM
+a+=$date
+echo $a
+
+per cron job id! => echo $RANDOM$(date +"%m%d%Y")
+
+#LOG HERE (status = 'P'), already get count of rows to be inserted
+/usr/pgsql-9.6/bin/psql -p 5432 -U postgres -d crss_table_partitioning -c "INSERT INTO meterprocess.partition_log 
+SELECT '$ID','meterprocess.txn_meter_validated_monthly_h13mos', '$FINAL_DATE_c3mos', '$FINAL_DATE_h13mos', current_timestamp, COUNT(1), NULL, 'P'
+FROM meterprocess.txn_meter_validated_monthly_c3mos WHERE reading_datetime < '$FINAL_DATE_c3mos';" -c "INSERT INTO meterprocess.partition_log 
+SELECT '$ID','meterprocess.txn_meter_raw_mq_monthly_h13mos', '$FINAL_DATE_c3mos', '$FINAL_DATE_h13mos', current_timestamp, COUNT(B.*), NULL, 'P'
+FROM meterprocess.txn_meter_validated_monthly_c3mos A JOIN meterprocess.txn_meter_raw_mq_monthly_c3mos B ON A.id = B.validated_id WHERE A.reading_datetime < '$FINAL_DATE_c3mos';" -c "INSERT INTO meterprocess.partition_log 
+SELECT '$ID','meterprocess.txn_meter_ssla_mq_monthly_h13mos', '$FINAL_DATE_c3mos', '$FINAL_DATE_h13mos', current_timestamp, COUNT(C.*), NULL, 'P' 
+FROM meterprocess.txn_meter_validated_monthly_c3mos A JOIN meterprocess.txn_meter_raw_mq_monthly_c3mos B ON A.id = B.validated_id JOIN meterprocess.txn_meter_ssla_mq_monthly_c3mos C ON B.id = C.monthly_mq_id WHERE A.reading_datetime < '$FINAL_DATE_c3mos';" 
+
+2 kinds:
+#LOG HERE (status = 'H', count of recs inserted taken from status = 'P')
+/usr/pgsql-9.6/bin/psql -p 5432 -U postgres -d crss_table_partitioning -c "INSERT INTO meterprocess.partition_log 
+SELECT '$ID','meterprocess.txn_meter_validated_monthly_h13mos', '$FINAL_DATE_c3mos', '$FINAL_DATE_h13mos', current_timestamp, A.count, NULL, 'H'
+FROM meterprocess.partition_log A WHERE A.id = '$ID' AND A.table_name = 'meterprocess.txn_meter_validated_monthly_h13mos';" -c "INSERT INTO meterprocess.partition_log 
+SELECT '$ID','meterprocess.txn_meter_raw_mq_monthly_h13mos', '$FINAL_DATE_c3mos', '$FINAL_DATE_h13mos', current_timestamp, A.count, NULL, 'H'
+FROM meterprocess.partition_log A WHERE A.id = '$ID' AND A.table_name = 'meterprocess.txn_meter_raw_mq_monthly_h13mos';" -c "INSERT INTO meterprocess.partition_log 
+SELECT '$ID','meterprocess.txn_meter_ssla_mq_monthly_h13mos', '$FINAL_DATE_c3mos', '$FINAL_DATE_h13mos', current_timestamp, A.count, NULL, 'H'
+FROM meterprocess.partition_log A WHERE A.id = '$ID' AND A.table_name = 'meterprocess.txn_meter_ssla_mq_monthly_h13mos';"
+
+
+/****/usr/pgsql-9.6/bin/psql -p 5432 -U postgres -d crss_table_partitioning -c "UPDATE meterprocess.partition_log SET controldate = current_timestamp, status = 'H' WHERE B.id = '$ID';"*****/
+
+
+
+
+id                | bigint                      | not null  | plain    |              | 
+ table_name        | character varying(50)       | not null  | extended |              | 
+ cutoffdate_c3mos  | timestamp without time zone |           | plain    |              | 
+ cutoffdate_h13mos | timestamp without time zone |           | plain    |              | 
+ controldate       | timestamp with time zone    | not null  | plain    |              | 
+ count             | bigint                      |           | plain    |              | 
+ archivepath       | character varying(100)      |           | extended |              | 
+ status 
+
+
+--03/09/2018
+Mark: basta outside sa reading_datetime range na 2016-11-26 to 2016-12-26
+
+select count(1) from meterprocess.txn_meter_validated_monthly_c3mos; --1,916,240
+select count(1) from meterprocess.txn_meter_raw_mq_monthly_c3mos; --482112
+select count(1) from meterprocess.txn_meter_ssla_mq_monthly_c3mos; --0
+
+select count(1) from meterprocess.txn_meter_validated_monthly_h13mos; --8738422
+select count(1) from meterprocess.txn_meter_raw_mq_monthly_h13mos; --18329984
+select count(1) from meterprocess.txn_meter_ssla_mq_monthly_h13mos; --0
+
+select count(1) from meterprocess.txn_meter_validated_monthly_c3mos where reading_datetime < '2016-11-26' OR reading_datetime >= '2016-12-27'; --1,916,240 
+
+select count(1) from meterprocess.txn_meter_validated_monthly_c3mos where reading_datetime between '2016-11-26'and '2016-12-26'; --0
+
+select count(1) from meterprocess.txn_meter_validated_monthly_c3mos where reading_datetime > '2016-12-26' --1916240
+
+
+select count(1) from meterprocess.txn_meter_validated_monthly_h13mos where reading_datetime < '2016-11-26' OR reading_datetime >= '2016-12-27'; --6170479
+
+select count(1) from meterprocess.txn_meter_validated_monthly_h13mos where reading_datetime between '2016-11-26'and '2016-12-26 23:59:59'; --2567943
+
+
+
+
+SELECT COUNT(DISTINCT A.id)
+FROM meterprocess.txn_meter_validated_monthly_c3mos A JOIN meterprocess.txn_meter_raw_mq_monthly_c3mos B ON A.id = B.validated_id;
+--392832
+
+SELECT COUNT(DISTINCT B.validated_id)
+FROM meterprocess.txn_meter_validated_monthly_c3mos A JOIN meterprocess.txn_meter_raw_mq_monthly_c3mos B ON A.id = B.validated_id;
+--392832
+
+SELECT DISTINCT A.id
+FROM meterprocess.txn_meter_validated_monthly_c3mos A JOIN meterprocess.txn_meter_raw_mq_monthly_c3mos B ON A.id = B.validated_id LIMIT 5;
+   id     
+-----------
+ 153259722
+ 153259723
+ 153259724
+ 153259725
+ 153259726
+
+--alter table txn_meter_validated_monthly_c3mos drop constraint txn_meter_validated_monthly_c3mos_ck;
+UPDATE txn_meter_validated_monthly_c3mos SET reading_datetime = '2017-10-26' WHERE id IN (153259722, 153259723, 153259724, 153259725, 153259726);
+
+SELECT COUNT(DISTINCT A.id)
+FROM meterprocess.txn_meter_validated_monthly_c3mos A JOIN meterprocess.txn_meter_raw_mq_monthly_c3mos B ON A.id = B.validated_id where A.reading_datetime < '2017-11-26';
+--5
+
+SELECT COUNT(DISTINCT B.validated_id)
+FROM meterprocess.txn_meter_validated_monthly_c3mos A JOIN meterprocess.txn_meter_raw_mq_monthly_c3mos B ON A.id = B.validated_id where A.reading_datetime < '2017-11-26';
+--5
+
+SELECT DISTINCT A.id
+FROM meterprocess.txn_meter_validated_monthly_h13mos A JOIN meterprocess.txn_meter_raw_mq_monthly_h13mos B ON A.id = B.validated_id WHERE A.reading_datetime < '2016-11-26' OR reading_datetime >= '2016-12-27' LIMIT 3;
+-[ RECORD 1 ]
+id | 8998379
+-[ RECORD 2 ]
+id | 8998380
+-[ RECORD 3 ]
+id | 8998381
+
+select reading_datetime from meterprocess.txn_meter_validated_monthly_h13mos where id in (8998379,8998380,8998381);
+
+update meterprocess.txn_meter_validated_monthly_h13mos
+set created_date_time = '2016-09-01'
+where id in (8998379,8998380,8998381);
+
+SELECT COUNT(1) FROM meterprocess.txn_meter_validated_monthly_h13mos WHERE created_date_time < '2016-10-26';
+
+
+-------
+
+---3/13/2018
+
+scp meterprocess_txn_meter_validated_monthly_transfer_PROD_LOG.sh pemc@192.168.233.9:/home/pemc
+
+sudo cp /home/pemc/meterprocess_txn_meter_validated_monthly_transfer_PROD_LOG.sh /var/lib/pgsql/9.6/
+
+
+SELECT DISTINCT A.id
+FROM meterprocess.txn_meter_validated_monthly_c3mos A JOIN meterprocess.txn_meter_raw_mq_monthly_c3mos B ON A.id = B.validated_id LIMIT 5;
+    id     
+-----------
+ 153259727
+ 153259728
+ 153259729
+ 153259730
+ 153259731
+(5 rows)
+
+UPDATE txn_meter_validated_monthly_c3mos SET reading_datetime = '2017-10-26' WHERE id IN (153259727,153259728,153259729,153259730,153259731);
+
+SELECT DISTINCT A.id
+FROM meterprocess.txn_meter_validated_monthly_h13mos A JOIN meterprocess.txn_meter_raw_mq_monthly_h13mos B ON A.id = B.validated_id WHERE A.reading_datetime < '2016-11-26' OR reading_datetime >= '2016-12-27' LIMIT 4;
+   id    
+---------
+ 8998382
+ 8998383
+ 8998384
+ 8998385
+(4 rows)
+
+update meterprocess.txn_meter_validated_monthly_h13mos set created_date_time = '2016-09-01' where id in (8998382,8998383,8998384,8998385);
+
+
+---
+
+SELECT DISTINCT A.id
+FROM meterprocess.txn_meter_validated_monthly_c3mos A JOIN meterprocess.txn_meter_raw_mq_monthly_c3mos B ON A.id = B.validated_id LIMIT 4;
+    id     
+-----------
+ 153259732
+ 153259733
+ 153259734
+ 153259735
+(4 rows)
+
+UPDATE txn_meter_validated_monthly_c3mos SET reading_datetime = '2017-10-26' WHERE id IN (153259732,153259733,153259734,153259735);
+
+SELECT DISTINCT A.id
+FROM meterprocess.txn_meter_validated_monthly_h13mos A JOIN meterprocess.txn_meter_raw_mq_monthly_h13mos B ON A.id = B.validated_id WHERE A.reading_datetime < '2016-11-26' OR reading_datetime >= '2016-12-27' LIMIT 3;
+   id    
+---------
+ 8998382
+ 8998383
+ 8998384
+
+update meterprocess.txn_meter_validated_monthly_h13mos set created_date_time = '2016-09-01' where id in (8998382,8998383,8998384);
+
+
+select * from meterprocess.txn_meter_validated_monthly_h13mos where id in (8998382,8998383,8998384);
+
+
+select * from txn_meter_validated_monthly_h13mos WHERE id IN (153259732,153259733,153259734,153259735);
+
+
+--03/14/2018
+SELECT count(1) FROM meterprocess.txn_stl_adjusted_monthly_c3mos WHERE reading_datetime < '2017-11-26';
+--0
+
+SELECT count(1) FROM meterprocess.txn_stl_adjusted_monthly_h13mos WHERE reading_datetime < '2016-11-26' OR reading_datetime >= '2016-12-27';
+--0
+
+crss_table_partitioning=# select count(1) from txn_stl_adjusted_monthly_h13mos;
+-[ RECORD 1 ]--
+count | 4741326
+
+crss_table_partitioning=# SELECT count(1) FROM meterprocess.txn_stl_adjusted_monthly_h13mos WHERE reading_datetime >= '2016-11-26' OR reading_datetime <= '2016-12-27';
+-[ RECORD 1 ]--
+count | 4741326
+
+
+scp meterprocess_txn_stl_adjusted_monthly_transfer_PROD_LOG.sh pemc@192.168.233.9:/home/pemc
+
+sudo cp /home/pemc/meterprocess_txn_stl_adjusted_monthly_transfer_PROD_LOG.sh /var/lib/pgsql/9.6/
+
+
+
+
+

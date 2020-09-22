@@ -1,0 +1,5 @@
+/Postgres/edb/as9.6/bin/psql
+
+/pg_backup/data_archive
+
+PROD

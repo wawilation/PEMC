@@ -1,0 +1,89 @@
+#####--WEEKLY VACUUM ANALYZE--####
+#0 3 * * 6 /Postgres/edb/as9.6/bin/psql -p 5432 -d crss -U postgres -c 'set search_path = meterprocess;' -f /pg_data/VACUUM_ANALYZE_METERPROCESS.sql >> /tmp/vacuum_analyze_cron.log 2>&1
+#0 3 * * 6 /Postgres/edb/as9.6/bin/psql -p 5432 -d crss -U postgres -c 'set search_path = settlement;' -f /pg_data/VACUUM_ANALYZE_SETTLEMENT.sql >> /tmp/vacuum_analyze_cron.log 2>&1
+
+#####--METERPROCESS--#####
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/meterprocess_txn_meter_validated_daily_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/meterprocess_txn_meter_validated_monthly_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/meterprocess_txn_stl_gesq_prelim_monthly_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/meterprocess_txn_stl_adjusted_monthly_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/meterprocess_txn_stl_daily_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/meterprocess_txn_stl_final_monthly_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/meterprocess_txn_stl_prelim_monthly_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/meterprocess_txn_stl_gesq_adjusted_monthly_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/meterprocess_txn_stl_gesq_daily_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/meterprocess_txn_stl_gesq_final_monthly_transfer.sh
+#####--SETTLEMENT--#####
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_bilateral_energy_qty_monthly_adjusted_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_bilateral_energy_qty_monthly_final_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_bilateral_energy_qty_monthly_prelim_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_energy_qty_monthly_adjusted_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_energy_qty_monthly_final_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_energy_qty_monthly_prelim_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_eta_monthly_adjusted_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_eta_monthly_final_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_eta_monthly_prelim_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_lr_monthly_adjusted_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_lr_monthly_final_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_lr_monthly_prelim_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_mf_energy_monthly_adjusted_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_mf_energy_monthly_final_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_mf_energy_monthly_prelim_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_market_fee_monthly_adjusted_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_market_fee_monthly_final_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_market_fee_monthly_prelim_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_gmrvat_monthly_adjusted_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_gmrvat_monthly_final_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_gmrvat_monthly_prelim_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_market_fee_reserve_monthly_adjusted_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_market_fee_reserve_monthly_final_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_market_fee_reserve_monthly_prelim_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_process_gmr_monthly_adjusted_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_process_gmr_monthly_final_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_process_gmr_monthly_prelim_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_process_rgmr_monthly_adjusted_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_process_rgmr_monthly_final_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_process_rgmr_monthly_prelim_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_rgmrvat_monthly_adjusted_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_rgmrvat_monthly_final_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_rgmrvat_monthly_prelim_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_mf_reserve_monthly_adjusted_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_mf_reserve_monthly_final_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_mf_reserve_monthly_prelim_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_mf_reserve_qty_monthly_adjusted_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_mf_reserve_qty_monthly_final_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_mf_reserve_qty_monthly_prelim_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_nss_flowback_monthly_adjusted_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_nss_flowback_monthly_final_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_nss_flowback_monthly_prelim_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_process_disagg_bcq_monthly_adjusted_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_process_disagg_bcq_monthly_final_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_process_disagg_bcq_monthly_prelim_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_process_nss_monthly_adjusted_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_process_nss_monthly_final_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_process_nss_monthly_prelim_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_process_rp_rta_monthly_adjusted_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_process_rp_rta_monthly_final_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_process_rp_rta_monthly_prelim_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_process_spotqty_monthly_adjusted_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_process_spotqty_monthly_final_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_process_spotqty_monthly_prelim_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_rcra_monthly_adjusted_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_rcra_monthly_final_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_rcra_monthly_prelim_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_reserve_qty_monthly_adjusted_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_reserve_qty_monthly_final_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_reserve_qty_monthly_prelim_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_rta_monthly_adjusted_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_rta_monthly_final_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_rta_monthly_prelim_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_runway_monthly_adjusted_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_runway_monthly_final_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_runway_monthly_prelim_transfer.sh
+#####--NMMS--#####
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/nmms_txn_energy_price_sched_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/nmms_txn_reserve_bcq_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/nmms_txn_reserve_price_sched_transfer.sh
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/nmms_txn_rtu_transfer.sh
+#####--AUDIT--#####
+#0 0 1 * * /pg_data/edb/as9.6/data/bash/audit_audit_log_transfer.sh

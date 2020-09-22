@@ -1,0 +1,40 @@
+DB2:
+standby_mode = 'on'
+primary_conninfo = 'user=rep_user host=10.176.11.129 port=5432 sslmode=prefer sslcompression=1 krbsrvname=postgres target_session_attrs=any'
+restore_command = 'scp -rp postgres@10.176.11.129:/pg_backup/edb/as9.6/archive/%f %p'
+recovery_target_timeline = 'latest'
+trigger_file = '/pg_data/edb/as9.6/data/trigger_promotion'
+
+command:
+time pg_basebackup -h 10.176.11.129 -p 5432 -Xs -D /pg_data/edb/as9.6/data -U rep_user -P --xlogdir=/pg_wal/edb/as9.6/data/pg_xlog
+
+[postgres@db2 /]$ time pg_basebackup -h 10.176.11.129 -p 5432 -Xs -D /pg_data/edb/as9.6/data -U rep_user -P --xlogdir=/pg_wal/edb/as9.6/data/pg_xlog
+976418313/976418313 kB (100%), 1/1 tablespace
+
+real    150m1.757s
+user    2m44.732s
+sys     19m24.588s
+
+
+
+DR1:
+standby_mode = 'on'
+primary_conninfo = 'user=rep_user host=192.168.94.140 port=5432 sslmode=prefer sslcompression=1 krbsrvname=postgres target_session_attrs=any'
+restore_command = 'scp -rp postgres@192.168.94.140:/pg_backup/edb/as9.6/archive/%f %p'
+recovery_target_timeline = 'latest'
+trigger_file = '/pg_data/edb/as9.6/data/trigger_promotion'
+
+command:
+time pg_basebackup -h 192.168.94.140 -p 5432 -Xs -D /pg_data/edb/as9.6/data -U rep_user -P --xlogdir=/pg_wal/edb/as9.6/data/pg_xlog
+
+
+
+DR2:
+standby_mode = 'on'
+primary_conninfo = 'user=rep_user host=10.176.13.129 port=5432 sslmode=prefer sslcompression=1 krbsrvname=postgres target_session_attrs=any'
+#restore_command = 'scp -rp postgres@192.168.94.140:/pg_backup/edb/as9.6/archive/%f %p'
+recovery_target_timeline = 'latest'
+trigger_file = '/pg_data/edb/as9.6/data/trigger_promotion'
+
+
+

@@ -1,0 +1,7 @@
+132 session 5a8243d1.5a5c#4 txn 315/12368082#1151304883ERROR:  temporary file size exceeds temp_file_limit (10485760kB)
+[ 2018-02-13 11:30:51 PHT - 53400 generated ] % [ Source: during reqest from [local] using user:postgres on DB:crss for application:psql.bin backend process:23132 session 5a8243d1.5a5c#5 txn 315/12368082#1151304883STATEMENT:  INSERT INTO meterprocess.txn_meter_raw_mq_monthly_h13mos SELECT B.* FROM meterprocess.txn_meter_validated_monthly_c3mos A JOIN meterprocess.txn_meter_raw_mq_monthly_c3mos B ON A.id = B.validated_id WHERE A.reading_datetime < '2017-10-26';
+
+
+132 session 5a8243d1.5a5c#6 txn 315/12368083#0ERROR:  temporary file size exceeds temp_file_limit (10485760kB)
+[ 2018-02-13 11:34:22 PHT - 53400 generated ] % [ Source: during reqest from [local] using user:postgres on DB:crss for application:psql.bin backend process:23132 session 5a8243d1.5a5c#7 txn 315/12368083#0STATEMENT:  INSERT INTO meterprocess.txn_meter_ssla_mq_monthly_h13mos SELECT C.* FROM meterprocess.txn_meter_validated_monthly_c3mos A JOIN meterprocess.txn_meter_raw_mq_monthly_c3mos B ON A.id = B.validated_id JOIN meterprocess.txn_meter_ssla_mq_monthly_c3mos C ON B.id = C.monthly_mq_id WHERE A.reading_datetime < '2017-10-26';
+

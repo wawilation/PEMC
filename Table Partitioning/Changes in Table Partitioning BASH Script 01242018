@@ -1,0 +1,5 @@
+Changes in Table Partitioning BASH Script:
+
+1.) Change the archiving basis column to created_date_time.
+2.) Change the FINAL_DATE_HISTORICAL13MOS duration from "14 mos" back to "17 mos" back.
+3.) Add a VACUUM ANALYZE after the deletion of the historical13mos data after archiving.

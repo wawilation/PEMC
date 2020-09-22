@@ -1,0 +1,272 @@
+#!/bin/bash
+
+#get cut-off date for current 3 mos
+TEMP_DATE=$(date --date='4 months ago' +%Y-%m-%d)
+DAY=$(date -d "$TEMP_DATE" '+%d')
+FINAL_DATE_c3mos=$(date -d "$TEMP_DATE + 26 days - $DAY days" +%Y-%m-%d)
+
+echo $TEMP_DATE = 2017-11-06
+echo $DAY = 06
+echo $FINAL_DATE_c3mos = 2017-11-26
+
+#get cut-off date for historical 13 mos
+TEMP_DATE=$(date --date='17 months ago' +%Y-%m-%d)
+DAY=$(date -d "$TEMP_DATE" '+%d')
+FINAL_DATE_h13mos=$(date -d "$TEMP_DATE + 26 days - $DAY days" +%Y-%m-%d)
+
+echo $TEMP_DATE = 2016-10-06
+echo $DAY = 06
+echo $FINAL_DATE_h13mos = 2016-10-26
+
+
+
+                                 Table "meterprocess.partition_log"
+      Column       |            Type             | Modifiers | Storage  | Stats target | Description 
+-------------------+-----------------------------+-----------+----------+--------------+-------------
+ id                | bigint                      | not null  | plain    |              | 
+ object            | character varying(1000)      | not null  | extended |              | 
+ cutoffdate_c3mos  | timestamp without time zone |           | plain    |              | 
+ cutoffdate_h13mos | timestamp without time zone |           | plain    |              | 
+ controldate       | timestamp with time zone    | not null  | plain    |              | 
+ count             | bigint                      |           | plain    |              | 
+ archivepath       | character varying(1000)      |           | extended |              | 
+ status            | character(3)                |           | extended |              | 
+Indexes:
+    "pk_idobjectcontroldate" PRIMARY KEY, btree (id, object, controldate)
+
+                                 Table "meterprocess.partition_log"
+      Column       |            Type             | Modifiers | Storage  | Stats target | Description 
+-------------------+-----------------------------+-----------+----------+--------------+-------------
+ id                | bigint                      | not null  | plain    |              | 
+ object            | character varying(1000)     | not null  | extended |              | 
+ cutoffdate_c3mos  | timestamp without time zone |           | plain    |              | 
+ cutoffdate_h13mos | timestamp without time zone |           | plain    |              | 
+ controldate       | timestamp with time zone    | not null  | plain    |              | 
+ count             | bigint                      |           | plain    |              | 
+ archivepath       | character varying(1000)     |           | extended |              | 
+ status            | character(3)                |           | extended |              | 
+Indexes:
+    "pk_idobjectcontroldate" PRIMARY KEY, btree (id, object, controldate)
+
+CREATE TABLE partition_log
+(
+id bigint,
+object character varying(1000),
+cutoffdate_c3mos timestamp without time zone,
+cutoffdate_h13mos timestamp without time zone,
+controldate timestamp with time zone,
+count bigint,
+archivepath character varying(1000),
+status character(3),
+CONSTRAINT pk_idobjectcontroldate PRIMARY KEY (id, object, controldate)
+);
+
+
+
+#insert into historical 13 mos
+	/usr/pgsql-9.6/bin/psql -p 5432 -U postgres -d crss_table_partitioning -c "set session_replication_role = replica;" 
+-c "INSERT INTO meterprocess.txn_meter_validated_monthly_h13mos SELECT * FROM meterprocess.txn_meter_validated_monthly_c3mos WHERE reading_datetime < '$FINAL_DATE_c3mos';" 
+
+-c "INSERT INTO meterprocess.txn_meter_raw_mq_monthly_h13mos SELECT B.* FROM meterprocess.txn_meter_validated_monthly_c3mos A JOIN meterprocess.txn_meter_raw_mq_monthly_c3mos B ON A.id = B.validated_id WHERE A.reading_datetime < '$FINAL_DATE_c3mos';" 
+
+-c "INSERT INTO meterprocess.txn_meter_ssla_mq_monthly_h13mos SELECT C.* FROM meterprocess.txn_meter_validated_monthly_c3mos A JOIN meterprocess.txn_meter_raw_mq_monthly_c3mos B ON A.id = B.validated_id JOIN meterprocess.txn_meter_ssla_mq_monthly_c3mos C ON B.id = C.monthly_mq_id WHERE A.reading_datetime < '$FINAL_DATE_c3mos';"
+
+
+INSERT INTO meterprocess.partition_log 
+SELECT 'meterprocess.txn_meter_validated_monthly_h13mos', '$FINAL_DATE_c3mos', NULL, current_date, COUNT(1), NULL, 'P'
+FROM meterprocess.txn_meter_validated_monthly_c3mos WHERE reading_datetime < '$FINAL_DATE_c3mos';
+
+
+INSERT INTO meterprocess.partition_log 
+SELECT 'meterprocess.txn_meter_raw_mq_monthly_h13mos', '$FINAL_DATE_c3mos', NULL, current_date, COUNT(B.1), NULL, 'P'
+FROM meterprocess.txn_meter_validated_monthly_c3mos A JOIN meterprocess.txn_meter_raw_mq_monthly_c3mos B ON A.id = B.validated_id WHERE A.reading_datetime < '$FINAL_DATE_c3mos';
+
+
+-----------
+
+
+INSERT INTO meterprocess.partition_log 
+SELECT 'meterprocess.txn_meter_raw_mq_monthly_h13mos', current_date, NULL, current_date, COUNT(B.*), NULL, 'P'
+FROM meterprocess.txn_meter_validated_monthly_c3mos A JOIN meterprocess.txn_meter_raw_mq_monthly_c3mos B ON A.id = B.validated_id WHERE A.reading_datetime < '2017-10-26';
+
+
+INSERT INTO meterprocess.partition_log 
+SELECT 'meterprocess.txn_meter_validated_monthly_h13mos', current_date, NULL, current_date, COUNT(1), NULL, 'P'
+FROM meterprocess.txn_meter_validated_monthly_c3mos WHERE reading_datetime < '2017-10-26' RETURNING COUNT(1);
+
+
+select count(B.*)
+FROM meterprocess.txn_meter_validated_monthly_c3mos A JOIN meterprocess.txn_meter_raw_mq_monthly_historical13mos B ON A.id = B.validated_id
+
+
+INSERT INTO meterprocess.partition_log SELECT 'meterprocess.txn_meter_validated_monthly_c3mos', current_date, NULL, current_date, COUNT(1), NULL, 'P'
+FROM meterprocess.txn_meter_validated_monthly_c3mos LIMIT 10;
+
+
+/********03/06/2018**********/
+crss_table_partitioning=# select * from partition_log;
+                   object                   |  cutoffdate_c3mos   | cutoffdate_h13mos |     controldate     | count  | archivepath | status 
+------------------------------------------------+---------------------+-------------------+---------------------+--------+-------------+--------
+ meterprocess.txn_meter_validated_monthly_c3mos | 2018-02-07 00:00:00 |                   | 2018-02-07 00:00:00 | 143680 |             | P 
+ meterprocess.txn_meter_raw_mq_monthly_h13mos   | 2018-02-07 00:00:00 |                   | 2018-02-07 00:00:00 |      0 |             | P 
+ meterprocess.txn_meter_raw_mq_monthly_h13mos   | 2018-02-07 00:00:00 |                   | 2018-02-07 00:00:00 |      0 |             | P 
+
+Problem Statement: How to uniquely identify a CRON job run??!!
+Answer: per cron job id! => echo $RANDOM$(date +"%m%d%Y")
+
+
+FLOW:
+#!/bin/bash
+
+#get cut-off date for current 3 mos
+TEMP_DATE=$(date --date='4 months ago' +%Y-%m-%d)
+DAY=$(date -d "$TEMP_DATE" '+%d')
+FINAL_DATE_c3mos=$(date -d "$TEMP_DATE + 26 days - $DAY days" +%Y-%m-%d)
+
+#get cut-off date for historical 13 mos
+TEMP_DATE=$(date --date='17 months ago' +%Y-%m-%d)
+DAY=$(date -d "$TEMP_DATE" '+%d')
+FINAL_DATE_h13mos=$(date -d "$TEMP_DATE + 26 days - $DAY days" +%Y-%m-%d)
+
+ID=$RANDOM$(date +"%m%d%Y")
+
+
+#####LOG HERE (status = 'P')
+/usr/pgsql-9.6/bin/psql -p 5432 -U postgres -d crss_table_partitioning -c "INSERT INTO meterprocess.partition_log SELECT '$ID','meterprocess.txn_meter_validated_monthly_h13mos', '$FINAL_DATE_c3mos', '$FINAL_DATE_h13mos', current_timestamp, 0, NULL, 'P';" -c "INSERT INTO meterprocess.partition_log SELECT '$ID','meterprocess.txn_meter_raw_mq_monthly_h13mos', '$FINAL_DATE_c3mos', '$FINAL_DATE_h13mos', current_timestamp, 0, NULL, 'P';" -c "INSERT INTO meterprocess.partition_log SELECT '$ID','meterprocess.txn_meter_ssla_mq_monthly_h13mos', '$FINAL_DATE_c3mos', '$FINAL_DATE_h13mos', current_timestamp, 0, NULL, 'P';"  
+
+#####LOG HERE TEMP STATUS (status = 'XX'), get count of rows to be inserted
+/usr/pgsql-9.6/bin/psql -p 5432 -U postgres -d crss_table_partitioning -c "INSERT INTO meterprocess.partition_log 
+SELECT '$ID','meterprocess.txn_meter_validated_monthly_h13mos', '$FINAL_DATE_c3mos', '$FINAL_DATE_h13mos', current_timestamp, COUNT(1), NULL, 'XX'
+FROM meterprocess.txn_meter_validated_monthly_c3mos WHERE reading_datetime < '$FINAL_DATE_c3mos';" -c "INSERT INTO meterprocess.partition_log 
+SELECT '$ID','meterprocess.txn_meter_raw_mq_monthly_h13mos', '$FINAL_DATE_c3mos', '$FINAL_DATE_h13mos', current_timestamp, COUNT(B.*), NULL, 'XX'
+FROM meterprocess.txn_meter_validated_monthly_c3mos A JOIN meterprocess.txn_meter_raw_mq_monthly_c3mos B ON A.id = B.validated_id WHERE A.reading_datetime < '$FINAL_DATE_c3mos';" -c "INSERT INTO meterprocess.partition_log 
+SELECT '$ID','meterprocess.txn_meter_ssla_mq_monthly_h13mos', '$FINAL_DATE_c3mos', '$FINAL_DATE_h13mos', current_timestamp, COUNT(C.*), NULL, 'XX' 
+FROM meterprocess.txn_meter_validated_monthly_c3mos A JOIN meterprocess.txn_meter_raw_mq_monthly_c3mos B ON A.id = B.validated_id JOIN meterprocess.txn_meter_ssla_mq_monthly_c3mos C ON B.id = C.monthly_mq_id WHERE A.reading_datetime < '$FINAL_DATE_c3mos';" 
+
+if [ "$?" = "0" ]; then
+#insert into historical 13 mos
+	/usr/pgsql-9.6/bin/psql -p 5432 -U postgres -d crss_table_partitioning -c "set session_replication_role = replica;" -c "INSERT INTO meterprocess.txn_meter_validated_monthly_h13mos SELECT * FROM meterprocess.txn_meter_validated_monthly_c3mos WHERE reading_datetime < '$FINAL_DATE_c3mos';" -c "INSERT INTO meterprocess.txn_meter_raw_mq_monthly_h13mos SELECT B.* FROM meterprocess.txn_meter_validated_monthly_c3mos A JOIN meterprocess.txn_meter_raw_mq_monthly_c3mos B ON A.id = B.validated_id WHERE A.reading_datetime < '$FINAL_DATE_c3mos';" -c "INSERT INTO meterprocess.txn_meter_ssla_mq_monthly_h13mos SELECT C.* FROM meterprocess.txn_meter_validated_monthly_c3mos A JOIN meterprocess.txn_meter_raw_mq_monthly_c3mos B ON A.id = B.validated_id JOIN meterprocess.txn_meter_ssla_mq_monthly_c3mos C ON B.id = C.monthly_mq_id WHERE A.reading_datetime < '$FINAL_DATE_c3mos';"
+
+	if [ "$?" = "0" ]; then
+	#####LOG HERE (status = 'H', count of recs inserted taken from status = 'XX')
+/usr/pgsql-9.6/bin/psql -p 5432 -U postgres -d crss_table_partitioning -c "UPDATE meterprocess.partition_log SET status = 'H', controldate = current_timestamp WHERE id = '$ID' AND object = 'meterprocess.txn_meter_validated_monthly_h13mos' AND status = 'XX';" -c "UPDATE meterprocess.partition_log SET status = 'H', controldate = current_timestamp WHERE id = '$ID' AND object = 'meterprocess.txn_meter_raw_mq_monthly_h13mos' AND status = 'XX';" -c "UPDATE meterprocess.partition_log SET status = 'H', controldate = current_timestamp WHERE id = '$ID' AND object = 'meterprocess.txn_meter_ssla_mq_monthly_h13mos' AND status = 'XX';"
+
+#delete from current 3 mos
+/usr/pgsql-9.6/bin/psql -p 5432 -U postgres -d crss_table_partitioning -c "set session_replication_role = replica;" -c "DELETE FROM meterprocess.txn_meter_ssla_mq_monthly_c3mos A USING (SELECT B.id FROM meterprocess.txn_meter_raw_mq_monthly_c3mos B JOIN meterprocess.txn_meter_validated_monthly_c3mos C ON B.validated_id = C.id WHERE C.reading_datetime < '$FINAL_DATE_c3mos') D WHERE A.monthly_mq_id = D.id;" -c "DELETE FROM meterprocess.txn_meter_raw_mq_monthly_c3mos A USING meterprocess.txn_meter_validated_monthly_c3mos B WHERE A.validated_id = B.id AND B.reading_datetime < '$FINAL_DATE_c3mos';" -c "DELETE FROM meterprocess.txn_meter_validated_monthly_c3mos A WHERE A.reading_datetime < '$FINAL_DATE_c3mos';"	
+	
+		if [ "$?" = "0" ]; then 
+		####LOG HERE (status = 'DC', count of recs deleted based on status = 'H')
+/usr/pgsql-9.6/bin/psql -p 5432 -U postgres -d crss_table_partitioning -c "INSERT INTO meterprocess.partition_log SELECT '$ID','meterprocess.txn_meter_validated_monthly_h13mos', '$FINAL_DATE_c3mos', '$FINAL_DATE_h13mos', current_timestamp, A.count, NULL, 'DC'
+FROM meterprocess.partition_log A WHERE A.id = '$ID' AND A.object = 'meterprocess.txn_meter_validated_monthly_h13mos' AND A.status = 'H';" -c "INSERT INTO meterprocess.partition_log SELECT '$ID','meterprocess.txn_meter_raw_mq_monthly_h13mos', '$FINAL_DATE_c3mos', '$FINAL_DATE_h13mos', current_timestamp, A.count, NULL, 'DC'
+FROM meterprocess.partition_log A WHERE A.id = '$ID' AND A.object = 'meterprocess.txn_meter_raw_mq_monthly_h13mos' AND A.status = 'H';" -c "INSERT INTO meterprocess.partition_log SELECT '$ID','meterprocess.txn_meter_ssla_mq_monthly_h13mos', '$FINAL_DATE_c3mos', '$FINAL_DATE_h13mos', current_timestamp, A.count, NULL, 'DC'
+FROM meterprocess.partition_log A WHERE A.id = '$ID' AND A.object = 'meterprocess.txn_meter_ssla_mq_monthly_h13mos' AND A.status = 'H';"
+
+		#vacuum analyze
+/usr/pgsql-9.6/bin/psql -p 5432 -U postgres -d crss_table_partitioning -c "VACUUM ANALYZE meterprocess.txn_meter_ssla_mq_monthly_c3mos;" -c "VACUUM ANALYZE meterprocess.txn_meter_raw_mq_monthly_c3mos;" -c "VACUUM ANALYZE meterprocess.txn_meter_validated_monthly_c3mos;" -c "VACUUM ANALYZE meterprocess.txn_meter_validated_monthly_h13mos;" -c "VACUUM ANALYZE meterprocess.txn_meter_raw_mq_monthly_h13mos;" -c "VACUUM ANALYZE meterprocess.txn_meter_ssla_mq_monthly_h13mos;"		
+---LOG HERE (status = 'V')
+
+			if [ "$?" = "0" ]; then
+			#####LOG HERE (status = 'V')
+/usr/pgsql-9.6/bin/psql -p 5432 -U postgres -d crss_table_partitioning -c "INSERT INTO meterprocess.partition_log SELECT '$ID','txn_meter_validated_monthly_c3mos,txn_meter_validated_monthly_h13mos,txn_meter_raw_mq_monthly_c3mos,txn_meter_raw_mq_monthly_h13mos, txn_meter_ssla_mq_monthly_c3mos,txn_meter_ssla_mq_monthly_h13mos', '$FINAL_DATE_c3mos', '$FINAL_DATE_h13mos', current_timestamp, 0,NULL,'V';"
+
+			#####LOG HERE TEMP STATUS (status = 'XX', count of recs archived)
+/usr/pgsql-9.6/bin/psql -p 5432 -U postgres -d crss_table_partitioning -c "INSERT INTO meterprocess.partition_log
+SELECT '$ID','meterprocess.txn_meter_validated_monthly_h13mos', '$FINAL_DATE_c3mos', '$FINAL_DATE_h13mos', current_timestamp, COUNT(1), '/pg_backup/data_archive/crss_meterprocess.txn_meter_validated_monthly_h13mos_$FINAL_DATE_h13mos.dat', 'XX' FROM meterprocess.txn_meter_validated_monthly_h13mos WHERE created_date_time < '$FINAL_DATE_h13mos';"
+
+			#dump older than historical13mos data to archive file
+/usr/pgsql-9.6/bin/psql -p 5432 -U postgres -d crss_table_partitioning -c "COPY(
+SELECT * FROM meterprocess.txn_meter_validated_monthly_h13mos WHERE created_date_time < '$FINAL_DATE_h13mos') TO '/pg_backup/data_archive/crss_meterprocess.txn_meter_validated_monthly_h13mos_$FINAL_DATE_h13mos.dat';"
+gzip /pg_backup/data_archive/crss_meterprocess.txn_meter_validated_monthly_h13mos_$FINAL_DATE_h13mos.dat					
+
+				if [ "$?" = "0" ]; then
+				#####LOG HERE (status = 'A', count of recs archived based on status = 'XX')
+/usr/pgsql-9.6/bin/psql -p 5432 -U postgres -d crss_table_partitioning -c "UPDATE meterprocess.partition_log SET status = 'A', controldate = current_timestamp WHERE id = '$ID' AND object = 'meterprocess.txn_meter_validated_monthly_h13mos' AND status = 'XX' AND archivepath IS NOT NULL;"
+
+				#####LOG HERE TEMP STATUS (status = 'XX', count of recs archived)
+/usr/pgsql-9.6/bin/psql -p 5432 -U postgres -d crss_table_partitioning -c "INSERT INTO meterprocess.partition_log
+SELECT '$ID','meterprocess.txn_meter_raw_mq_monthly_h13mos', '$FINAL_DATE_c3mos', '$FINAL_DATE_h13mos', current_timestamp, COUNT(B.*), '/pg_backup/data_archive/crss_meterprocess.txn_meter_raw_mq_monthly_h13mos_$FINAL_DATE_h13mos.dat', 'XX' FROM meterprocess.txn_meter_validated_monthly_h13mos A JOIN meterprocess.txn_meter_raw_mq_monthly_h13mos B ON A.id = B.validated_id WHERE A.created_date_time < '$FINAL_DATE_h13mos';"
+
+				#dump older than historical13mos data to archive file	
+/usr/pgsql-9.6/bin/psql -p 5432 -U postgres -d crss_table_partitioning -c "COPY(
+SELECT B.* FROM meterprocess.txn_meter_validated_monthly_h13mos A JOIN meterprocess.txn_meter_raw_mq_monthly_h13mos B ON A.id = B.validated_id WHERE A.created_date_time < '$FINAL_DATE_h13mos') TO '/pg_backup/data_archive/crss_meterprocess.txn_meter_raw_mq_monthly_h13mos_$FINAL_DATE_h13mos.dat';"
+gzip /pg_backup/data_archive/crss_meterprocess.txn_meter_raw_mq_monthly_h13mos_$FINAL_DATE_h13mos.dat				
+
+					if [ "$?" = "0" ]; then
+					#####LOG HERE (status = 'A', count of recs archived based on status = 'XX')
+/usr/pgsql-9.6/bin/psql -p 5432 -U postgres -d crss_table_partitioning -c "UPDATE meterprocess.partition_log SET status = 'A', controldate = current_timestamp WHERE id = '$ID' AND object = 'meterprocess.txn_meter_raw_mq_monthly_h13mos' AND status = 'XX' AND archivepath IS NOT NULL;"
+				
+					#####LOG HERE TEMP STATUS (status = 'XX', count of recs archived)
+/usr/pgsql-9.6/bin/psql -p 5432 -U postgres -d crss_table_partitioning -c "INSERT INTO meterprocess.partition_log
+SELECT '$ID','meterprocess.txn_meter_ssla_mq_monthly_h13mos', '$FINAL_DATE_c3mos', '$FINAL_DATE_h13mos', current_timestamp, COUNT(C.*), '/pg_backup/data_archive/crss_meterprocess.txn_meter_ssla_mq_monthly_h13mos_$FINAL_DATE_h13mos.dat', 'XX' FROM meterprocess.txn_meter_validated_monthly_h13mos A JOIN meterprocess.txn_meter_raw_mq_monthly_h13mos B ON A.id = B.validated_id JOIN meterprocess.txn_meter_ssla_mq_monthly_h13mos C ON B.id = C.monthly_mq_id WHERE A.created_date_time < '$FINAL_DATE_h13mos';"
+
+					#dump older than historical13mos data to archive file
+/usr/pgsql-9.6/bin/psql -p 5432 -U postgres -d crss_table_partitioning -c "COPY(
+SELECT C.* FROM meterprocess.txn_meter_validated_monthly_h13mos A JOIN meterprocess.txn_meter_raw_mq_monthly_h13mos B ON A.id = B.validated_id JOIN meterprocess.txn_meter_ssla_mq_monthly_h13mos C ON B.id = C.monthly_mq_id WHERE A.created_date_time < '$FINAL_DATE_h13mos') TO '/pg_backup/data_archive/crss_meterprocess.txn_meter_ssla_mq_monthly_h13mos_$FINAL_DATE_h13mos.dat';"
+gzip /pg_backup/data_archive/crss_meterprocess.txn_meter_ssla_mq_monthly_h13mos_$FINAL_DATE_h13mos.dat					
+
+						if [ "$?" = "0" ]; then
+						#####LOG HERE (status = 'A', count of recs archived based on status = 'XX')
+/usr/pgsql-9.6/bin/psql -p 5432 -U postgres -d crss_table_partitioning -c "UPDATE meterprocess.partition_log SET status = 'A', controldate = current_timestamp WHERE id = '$ID' AND object = 'meterprocess.txn_meter_ssla_mq_monthly_h13mos' AND status = 'XX' AND archivepath IS NOT NULL;"
+					
+						#delete from historical 13 mos
+/usr/pgsql-9.6/bin/psql -p 5432 -U postgres -d crss_table_partitioning -c "set session_replication_role = replica;" -c "DELETE FROM meterprocess.txn_meter_ssla_mq_monthly_h13mos A USING (SELECT B.id FROM meterprocess.txn_meter_raw_mq_monthly_h13mos B JOIN meterprocess.txn_meter_validated_monthly_h13mos C ON B.validated_id = C.id WHERE C.created_date_time < '$FINAL_DATE_h13mos') D WHERE A.monthly_mq_id = D.id;" -c "DELETE FROM meterprocess.txn_meter_raw_mq_monthly_h13mos A USING meterprocess.txn_meter_validated_monthly_h13mos B WHERE A.validated_id = B.id AND B.created_date_time < '$FINAL_DATE_h13mos';" -c "DELETE FROM meterprocess.txn_meter_validated_monthly_h13mos A WHERE A.created_date_time < '$FINAL_DATE_h13mos';"						
+
+						if [ "$?" = "0" ]; then
+						#####LOG HERE (status = 'DH', count of recs deleted based on status = 'A')
+/usr/pgsql-9.6/bin/psql -p 5432 -U postgres -d crss_table_partitioning -c "INSERT INTO meterprocess.partition_log SELECT '$ID','meterprocess.txn_meter_validated_monthly_h13mos', '$FINAL_DATE_c3mos', '$FINAL_DATE_h13mos', current_timestamp, A.count, A.archivepath, 'DH'
+FROM meterprocess.partition_log A WHERE A.id = '$ID' AND A.object = 'meterprocess.txn_meter_validated_monthly_h13mos' AND A.status = 'A';" -c "INSERT INTO meterprocess.partition_log SELECT '$ID','meterprocess.txn_meter_raw_mq_monthly_h13mos', '$FINAL_DATE_c3mos', '$FINAL_DATE_h13mos', current_timestamp, A.count, A.archivepath, 'DH' FROM meterprocess.partition_log A WHERE A.id = '$ID' AND A.object = 'meterprocess.txn_meter_raw_mq_monthly_h13mos' AND A.status = 'A';" -c "INSERT INTO meterprocess.partition_log SELECT '$ID','meterprocess.txn_meter_ssla_mq_monthly_h13mos', '$FINAL_DATE_c3mos', '$FINAL_DATE_h13mos', current_timestamp, A.count, A.archivepath, 'DH' FROM meterprocess.partition_log A WHERE A.id = '$ID' AND A.object = 'meterprocess.txn_meter_ssla_mq_monthly_h13mos' AND A.status = 'A';"	 
+						#vacuum analyze
+/usr/pgsql-9.6/bin/psql -p 5432 -U postgres -d crss_table_partitioning -c "VACUUM ANALYZE meterprocess.txn_meter_validated_monthly_h13mos;" -c "VACUUM ANALYZE meterprocess.txn_meter_raw_mq_monthly_h13mos;" -c "VACUUM ANALYZE meterprocess.txn_meter_ssla_mq_monthly_h13mos;"
+
+
+							if [ "$?" = "0" ]; then
+							#####LOG HERE (status = 'V')
+/usr/pgsql-9.6/bin/psql -p 5432 -U postgres -d crss_table_partitioning -c "INSERT INTO meterprocess.partition_log SELECT '$ID','txn_meter_validated_monthly_h13mos,txn_meter_raw_mq_monthly_h13mos,txn_meter_ssla_mq_monthly_h13mos', '$FINAL_DATE_c3mos', '$FINAL_DATE_h13mos', current_timestamp, 0,NULL,'V';"
+							#create check constraint
+/usr/pgsql-9.6/bin/psql -p 5432 -U postgres -d crss_table_partitioning -c "ALTER TABLE meterprocess.txn_meter_validated_monthly_c3mos DROP CONSTRAINT IF EXISTS txn_meter_validated_monthly_c3mos_ck; ALTER TABLE meterprocess.txn_meter_validated_monthly_c3mos ADD CONSTRAINT txn_meter_validated_monthly_c3mos_ck CHECK (reading_datetime >= '$FINAL_DATE_c3mos'); ALTER TABLE meterprocess.txn_meter_validated_monthly_h13mos DROP CONSTRAINT IF EXISTS txn_meter_validated_monthly_h13mos_ck; ALTER TABLE meterprocess.txn_meter_validated_monthly_h13mos ADD CONSTRAINT txn_meter_validated_monthly_h13mos_ck CHECK (reading_datetime < '$FINAL_DATE_c3mos');"
+							
+						if [ "$?" = "0" ]; then						
+
+						#####LOG HERE (status = 'C')
+/usr/pgsql-9.6/bin/psql -p 5432 -U postgres -d crss_table_partitioning -c "INSERT INTO meterprocess.partition_log SELECT '$ID','txn_meter_validated_monthly_c3mos_ck CHECK (reading_datetime >= ''$FINAL_DATE_c3mos''),txn_meter_validated_monthly_h13mos_ck CHECK (reading_datetime < ''$FINAL_DATE_c3mos'')', '$FINAL_DATE_c3mos', '$FINAL_DATE_h13mos', current_timestamp, 0,NULL,'C';"
+
+						else
+							exit
+						fi
+						else
+							exit
+						fi
+
+						else
+							exit
+						fi
+
+					else
+						exit
+					fi
+				else
+					exit
+				fi
+			else
+				exit
+			fi
+		else
+			exit
+		fi	
+	else
+		exit
+	fi
+else
+	exit
+fi
+else
+	exit
+fi
+
+
+
+
+
+
+
+

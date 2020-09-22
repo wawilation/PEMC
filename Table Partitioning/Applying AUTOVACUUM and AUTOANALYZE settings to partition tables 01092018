@@ -1,0 +1,271 @@
+/****************MONTHLY*******************/
+/*****txn_meter_validated_monthly*****/
+ALTER TABLE meterprocess.txn_meter_validated_monthly  
+SET (autovacuum_vacuum_scale_factor = 0.0);
+ 
+ALTER TABLE meterprocess.txn_meter_validated_monthly  
+SET (autovacuum_vacuum_threshold = 5000000);
+ 
+ALTER TABLE meterprocess.txn_meter_validated_monthly  
+SET (autovacuum_analyze_scale_factor = 0.0);
+ 
+ALTER TABLE meterprocess.txn_meter_validated_monthly
+SET (autovacuum_analyze_threshold = 5000000); 
+
+--current3mos
+ALTER TABLE meterprocess.txn_meter_validated_monthly_current3mos  
+SET (autovacuum_vacuum_scale_factor = 0.0);
+ 
+ALTER TABLE meterprocess.txn_meter_validated_monthly_current3mos  
+SET (autovacuum_vacuum_threshold = 5000000);
+ 
+ALTER TABLE meterprocess.txn_meter_validated_monthly_current3mos  
+SET (autovacuum_analyze_scale_factor = 0.0);
+ 
+ALTER TABLE meterprocess.txn_meter_validated_monthly_current3mos
+SET (autovacuum_analyze_threshold = 5000000);
+
+--historical13mos
+ALTER TABLE meterprocess.txn_meter_validated_monthly_historical13mos  
+SET (autovacuum_vacuum_scale_factor = 0.0);
+ 
+ALTER TABLE meterprocess.txn_meter_validated_monthly_historical13mos  
+SET (autovacuum_vacuum_threshold = 5000000);
+ 
+ALTER TABLE meterprocess.txn_meter_validated_monthly_historical13mos  
+SET (autovacuum_analyze_scale_factor = 0.0);
+ 
+ALTER TABLE meterprocess.txn_meter_validated_monthly_historical13mos
+SET (autovacuum_analyze_threshold = 5000000);
+
+
+/*****txn_meter_raw_mq_monthly*****/
+ALTER TABLE meterprocess.txn_meter_raw_mq_monthly  
+SET (autovacuum_vacuum_scale_factor = 0.0);
+ 
+ALTER TABLE meterprocess.txn_meter_raw_mq_monthly  
+SET (autovacuum_vacuum_threshold = 5000000);
+ 
+ALTER TABLE meterprocess.txn_meter_raw_mq_monthly  
+SET (autovacuum_analyze_scale_factor = 0.0);
+ 
+ALTER TABLE meterprocess.txn_meter_raw_mq_monthly
+SET (autovacuum_analyze_threshold = 5000000); 
+
+--current3mos
+ALTER TABLE meterprocess.txn_meter_raw_mq_monthly_current3mos  
+SET (autovacuum_vacuum_scale_factor = 0.0);
+ 
+ALTER TABLE meterprocess.txn_meter_raw_mq_monthly_current3mos  
+SET (autovacuum_vacuum_threshold = 5000000);
+ 
+ALTER TABLE meterprocess.txn_meter_raw_mq_monthly_current3mos  
+SET (autovacuum_analyze_scale_factor = 0.0);
+ 
+ALTER TABLE meterprocess.txn_meter_raw_mq_monthly_current3mos
+SET (autovacuum_analyze_threshold = 5000000);
+
+--historical13mos
+ALTER TABLE meterprocess.txn_meter_raw_mq_monthly_historical13mos  
+SET (autovacuum_vacuum_scale_factor = 0.0);
+ 
+ALTER TABLE meterprocess.txn_meter_raw_mq_monthly_historical13mos  
+SET (autovacuum_vacuum_threshold = 5000000);
+ 
+ALTER TABLE meterprocess.txn_meter_raw_mq_monthly_historical13mos  
+SET (autovacuum_analyze_scale_factor = 0.0);
+ 
+ALTER TABLE meterprocess.txn_meter_raw_mq_monthly_historical13mos
+SET (autovacuum_analyze_threshold = 5000000);
+
+
+/*****txn_meter_ssla_mq_monthly*****/
+ALTER TABLE meterprocess.txn_meter_ssla_mq_monthly  
+SET (autovacuum_vacuum_scale_factor = 0.0);
+ 
+ALTER TABLE meterprocess.txn_meter_ssla_mq_monthly  
+SET (autovacuum_vacuum_threshold = 5000000);
+ 
+ALTER TABLE meterprocess.txn_meter_ssla_mq_monthly  
+SET (autovacuum_analyze_scale_factor = 0.0);
+ 
+ALTER TABLE meterprocess.txn_meter_ssla_mq_monthly
+SET (autovacuum_analyze_threshold = 5000000); 
+
+--current3mos
+ALTER TABLE meterprocess.txn_meter_ssla_mq_monthly_current3mos  
+SET (autovacuum_vacuum_scale_factor = 0.0);
+ 
+ALTER TABLE meterprocess.txn_meter_ssla_mq_monthly_current3mos  
+SET (autovacuum_vacuum_threshold = 5000000);
+ 
+ALTER TABLE meterprocess.txn_meter_ssla_mq_monthly_current3mos  
+SET (autovacuum_analyze_scale_factor = 0.0);
+ 
+ALTER TABLE meterprocess.txn_meter_ssla_mq_monthly_current3mos
+SET (autovacuum_analyze_threshold = 5000000);
+
+--historical13mos
+ALTER TABLE meterprocess.txn_meter_ssla_mq_monthly_historical13mos  
+SET (autovacuum_vacuum_scale_factor = 0.0);
+ 
+ALTER TABLE meterprocess.txn_meter_ssla_mq_monthly_historical13mos  
+SET (autovacuum_vacuum_threshold = 5000000);
+ 
+ALTER TABLE meterprocess.txn_meter_ssla_mq_monthly_historical13mos  
+SET (autovacuum_analyze_scale_factor = 0.0);
+ 
+ALTER TABLE meterprocess.txn_meter_ssla_mq_monthly_historical13mos
+SET (autovacuum_analyze_threshold = 5000000);
+
+
+VACUUM ANALYZE VERBOSE txn_meter_validated_monthly;
+VACUUM ANALYZE VERBOSE txn_meter_validated_monthly_current3mos;
+VACUUM ANALYZE VERBOSE txn_meter_validated_monthly_historical13mos;
+
+VACUUM ANALYZE VERBOSE txn_meter_raw_mq_monthly;
+VACUUM ANALYZE VERBOSE txn_meter_raw_mq_monthly_current3mos;
+VACUUM ANALYZE VERBOSE txn_meter_raw_mq_monthly_historical13mos;
+
+VACUUM ANALYZE VERBOSE txn_meter_ssla_mq_monthly;
+VACUUM ANALYZE VERBOSE txn_meter_ssla_mq_monthly_current3mos;
+VACUUM ANALYZE VERBOSE txn_meter_ssla_mq_monthly_historical13mos;
+
+
+/***************************DAILY******************************/
+/*****txn_meter_validated_daily*****/
+ALTER TABLE meterprocess.txn_meter_validated_daily  
+SET (autovacuum_vacuum_scale_factor = 0.0);
+ 
+ALTER TABLE meterprocess.txn_meter_validated_daily  
+SET (autovacuum_vacuum_threshold = 5000000);
+ 
+ALTER TABLE meterprocess.txn_meter_validated_daily  
+SET (autovacuum_analyze_scale_factor = 0.0);
+ 
+ALTER TABLE meterprocess.txn_meter_validated_daily
+SET (autovacuum_analyze_threshold = 5000000); 
+
+--current3mos
+ALTER TABLE meterprocess.txn_meter_validated_daily_current3mos  
+SET (autovacuum_vacuum_scale_factor = 0.0);
+ 
+ALTER TABLE meterprocess.txn_meter_validated_daily_current3mos  
+SET (autovacuum_vacuum_threshold = 5000000);
+ 
+ALTER TABLE meterprocess.txn_meter_validated_daily_current3mos  
+SET (autovacuum_analyze_scale_factor = 0.0);
+ 
+ALTER TABLE meterprocess.txn_meter_validated_daily_current3mos
+SET (autovacuum_analyze_threshold = 5000000);
+
+--historical13mos
+ALTER TABLE meterprocess.txn_meter_validated_daily_historical13mos  
+SET (autovacuum_vacuum_scale_factor = 0.0);
+ 
+ALTER TABLE meterprocess.txn_meter_validated_daily_historical13mos  
+SET (autovacuum_vacuum_threshold = 5000000);
+ 
+ALTER TABLE meterprocess.txn_meter_validated_daily_historical13mos  
+SET (autovacuum_analyze_scale_factor = 0.0);
+ 
+ALTER TABLE meterprocess.txn_meter_validated_daily_historical13mos
+SET (autovacuum_analyze_threshold = 5000000);
+
+
+/*****txn_meter_raw_mq_daily*****/
+ALTER TABLE meterprocess.txn_meter_raw_mq_daily  
+SET (autovacuum_vacuum_scale_factor = 0.0);
+ 
+ALTER TABLE meterprocess.txn_meter_raw_mq_daily  
+SET (autovacuum_vacuum_threshold = 5000000);
+ 
+ALTER TABLE meterprocess.txn_meter_raw_mq_daily  
+SET (autovacuum_analyze_scale_factor = 0.0);
+ 
+ALTER TABLE meterprocess.txn_meter_raw_mq_daily
+SET (autovacuum_analyze_threshold = 5000000); 
+
+--current3mos
+ALTER TABLE meterprocess.txn_meter_raw_mq_daily_current3mos  
+SET (autovacuum_vacuum_scale_factor = 0.0);
+ 
+ALTER TABLE meterprocess.txn_meter_raw_mq_daily_current3mos  
+SET (autovacuum_vacuum_threshold = 5000000);
+ 
+ALTER TABLE meterprocess.txn_meter_raw_mq_daily_current3mos  
+SET (autovacuum_analyze_scale_factor = 0.0);
+ 
+ALTER TABLE meterprocess.txn_meter_raw_mq_daily_current3mos
+SET (autovacuum_analyze_threshold = 5000000);
+
+--historical13mos
+ALTER TABLE meterprocess.txn_meter_raw_mq_daily_historical13mos  
+SET (autovacuum_vacuum_scale_factor = 0.0);
+ 
+ALTER TABLE meterprocess.txn_meter_raw_mq_daily_historical13mos  
+SET (autovacuum_vacuum_threshold = 5000000);
+ 
+ALTER TABLE meterprocess.txn_meter_raw_mq_daily_historical13mos  
+SET (autovacuum_analyze_scale_factor = 0.0);
+ 
+ALTER TABLE meterprocess.txn_meter_raw_mq_daily_historical13mos
+SET (autovacuum_analyze_threshold = 5000000);
+
+
+/*****txn_meter_ssla_mq_daily*****/
+ALTER TABLE meterprocess.txn_meter_ssla_mq_daily  
+SET (autovacuum_vacuum_scale_factor = 0.0);
+ 
+ALTER TABLE meterprocess.txn_meter_ssla_mq_daily  
+SET (autovacuum_vacuum_threshold = 5000000);
+ 
+ALTER TABLE meterprocess.txn_meter_ssla_mq_daily  
+SET (autovacuum_analyze_scale_factor = 0.0);
+ 
+ALTER TABLE meterprocess.txn_meter_ssla_mq_daily
+SET (autovacuum_analyze_threshold = 5000000); 
+
+--current3mos
+ALTER TABLE meterprocess.txn_meter_ssla_mq_daily_current3mos  
+SET (autovacuum_vacuum_scale_factor = 0.0);
+ 
+ALTER TABLE meterprocess.txn_meter_ssla_mq_daily_current3mos  
+SET (autovacuum_vacuum_threshold = 5000000);
+ 
+ALTER TABLE meterprocess.txn_meter_ssla_mq_daily_current3mos  
+SET (autovacuum_analyze_scale_factor = 0.0);
+ 
+ALTER TABLE meterprocess.txn_meter_ssla_mq_daily_current3mos
+SET (autovacuum_analyze_threshold = 5000000);
+
+--historical13mos
+ALTER TABLE meterprocess.txn_meter_ssla_mq_daily_historical13mos  
+SET (autovacuum_vacuum_scale_factor = 0.0);
+ 
+ALTER TABLE meterprocess.txn_meter_ssla_mq_daily_historical13mos  
+SET (autovacuum_vacuum_threshold = 5000000);
+ 
+ALTER TABLE meterprocess.txn_meter_ssla_mq_daily_historical13mos  
+SET (autovacuum_analyze_scale_factor = 0.0);
+ 
+ALTER TABLE meterprocess.txn_meter_ssla_mq_daily_historical13mos
+SET (autovacuum_analyze_threshold = 5000000);
+
+
+VACUUM ANALYZE VERBOSE txn_meter_validated_daily;
+VACUUM ANALYZE VERBOSE txn_meter_validated_daily_current3mos;
+VACUUM ANALYZE VERBOSE txn_meter_validated_daily_historical13mos;
+
+VACUUM ANALYZE VERBOSE txn_meter_raw_mq_daily;
+VACUUM ANALYZE VERBOSE txn_meter_raw_mq_daily_current3mos;
+VACUUM ANALYZE VERBOSE txn_meter_raw_mq_daily_historical13mos;
+
+VACUUM ANALYZE VERBOSE txn_meter_ssla_mq_daily;
+VACUUM ANALYZE VERBOSE txn_meter_ssla_mq_daily_current3mos;
+VACUUM ANALYZE VERBOSE txn_meter_ssla_mq_daily_historical13mos;
+
+
+
+
+

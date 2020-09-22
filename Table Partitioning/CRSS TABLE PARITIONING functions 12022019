@@ -1,0 +1,87 @@
+CRSS TABLE PARITIONING:
+METERPROCESS functions
+1. fn_txn_meter_validated_monthly_insert - *
+2. fn_txn_stl_gesq_daily_insert - *
+3. fn_txn_meter_validated_daily_insert - *
+4. fn_txn_stl_prelim_monthly_insert - *
+5. fn_txn_stl_gesq_prelim_monthly_insert - *
+6. fn_txn_stl_gesq_final_monthly_insert - *
+7. fn_txn_stl_gesq_adjusted_monthly_insert - *
+8. fn_txn_stl_final_monthly_insert - *
+9. fn_txn_stl_daily_insert - *
+10. fn_txn_stl_adjusted_monthly_insert - *
+
+11. fn_txn_meter_raw_mq_monthly_insert - *
+12. fn_txn_meter_ssla_mq_monthly_insert - *
+13. fn_txn_meter_raw_mq_daily_insert - *
+14. fn_txn_meter_ssla_mq_daily_insert - *
+
+
+SETTLEMENT functions
+--fn_txn_output_ready_bilateral_energy_qty_monthly_adjusted_ins - *
+--fn_txn_output_ready_bilateral_energy_qty_monthly_final_ins - *
+--fn_txn_output_ready_bilateral_energy_qty_monthly_prelim_ins - *
+--fn_txn_output_ready_energy_qty_monthly_adjusted_ins - *
+--fn_txn_output_ready_energy_qty_monthly_final_ins - *
+--fn_txn_output_ready_energy_qty_monthly_prelim_ins - *
+--fn_txn_output_ready_eta_monthly_adjusted_ins - *
+--fn_txn_output_ready_eta_monthly_final_ins - *
+--fn_txn_output_ready_eta_monthly_prelim_ins - *
+--fn_txn_output_ready_gmrvat_monthly_adjusted_ins - *
+--fn_txn_output_ready_gmrvat_monthly_final_ins - *
+--fn_txn_output_ready_gmrvat_monthly_prelim_ins - *
+--fn_txn_output_ready_lr_monthly_adjusted_ins - *
+--fn_txn_output_ready_lr_monthly_final_ins - *
+--fn_txn_output_ready_lr_monthly_prelim_ins - *
+--fn_txn_output_ready_market_fee_monthly_adjusted_ins - *
+--fn_txn_output_ready_market_fee_monthly_final_ins - *
+--fn_txn_output_ready_market_fee_monthly_prelim_ins - *
+--fn_txn_output_ready_market_fee_reserve_monthly_adjusted_ins - *
+--fn_txn_output_ready_market_fee_reserve_monthly_final_ins - *
+--fn_txn_output_ready_market_fee_reserve_monthly_prelim_ins - *
+--fn_txn_output_ready_mf_energy_monthly_adjusted_ins - *
+--fn_txn_output_ready_mf_energy_monthly_final_ins - *
+--fn_txn_output_ready_mf_energy_monthly_prelim_ins - *
+--fn_txn_output_ready_mf_reserve_monthly_adjusted_ins - *
+--fn_txn_output_ready_mf_reserve_monthly_final_ins - *
+--fn_txn_output_ready_mf_reserve_monthly_prelim_ins - *
+--fn_txn_output_ready_mf_reserve_qty_monthly_adjusted_ins - *
+--fn_txn_output_ready_mf_reserve_qty_monthly_final_ins - *
+--fn_txn_output_ready_mf_reserve_qty_monthly_prelim_ins - *
+--fn_txn_output_ready_nss_flowback_monthly_adjusted_ins - *
+--fn_txn_output_ready_nss_flowback_monthly_final_ins - *
+--fn_txn_output_ready_nss_flowback_monthly_prelim_ins - *
+--fn_txn_output_ready_process_disagg_bcq_monthly_adjusted_ins - *
+--fn_txn_output_ready_process_disagg_bcq_monthly_final_ins - *
+--fn_txn_output_ready_process_disagg_bcq_monthly_prelim_ins - *
+--fn_txn_output_ready_process_gmr_monthly_adjusted_ins - *
+--fn_txn_output_ready_process_gmr_monthly_final_ins - *
+--fn_txn_output_ready_process_gmr_monthly_prelim_ins - *
+--fn_txn_output_ready_process_nss_monthly_adjusted_ins - *
+--fn_txn_output_ready_process_nss_monthly_final_ins - *
+--fn_txn_output_ready_process_nss_monthly_prelim_ins - *
+--fn_txn_output_ready_process_rgmr_monthly_adjusted_ins - *
+--fn_txn_output_ready_process_rgmr_monthly_final_ins - *
+--fn_txn_output_ready_process_rgmr_monthly_prelim_ins - *
+--fn_txn_output_ready_process_rp_rta_monthly_adjusted_ins - *
+--fn_txn_output_ready_process_rp_rta_monthly_final_ins - *
+--fn_txn_output_ready_process_rp_rta_monthly_prelim_ins - *
+--fn_txn_output_ready_process_spotqty_monthly_adjusted_ins - *
+--fn_txn_output_ready_process_spotqty_monthly_final_ins - *
+--fn_txn_output_ready_process_spotqty_monthly_prelim_ins - *
+--fn_txn_output_ready_rcra_monthly_adjusted_ins - *
+--fn_txn_output_ready_rcra_monthly_final_ins - *
+--fn_txn_output_ready_rcra_monthly_prelim_ins - *
+--fn_txn_output_ready_reserve_qty_monthly_adjusted_ins - *
+--fn_txn_output_ready_reserve_qty_monthly_final_ins - *
+--fn_txn_output_ready_reserve_qty_monthly_prelim_ins - *
+--fn_txn_output_ready_rgmrvat_monthly_adjusted_ins - *
+--fn_txn_output_ready_rgmrvat_monthly_final_ins - *
+--fn_txn_output_ready_rgmrvat_monthly_prelim_ins - *
+--fn_txn_output_ready_rta_monthly_adjusted_ins - *
+--fn_txn_output_ready_rta_monthly_final_ins - *
+--fn_txn_output_ready_rta_monthly_prelim_ins - *
+--fn_txn_output_ready_runway_monthly_adjusted_ins - *
+--fn_txn_output_ready_runway_monthly_final_ins - *
+--fn_txn_output_ready_runway_monthly_prelim_ins - *
+

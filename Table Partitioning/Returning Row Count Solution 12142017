@@ -1,0 +1,55 @@
+/***txn_meter_validated_daily***/
+CREATE VIEW vw_txn_meter_validated_daily AS SELECT * FROM txn_meter_validated_daily;
+
+CREATE TRIGGER tr_vw_txn_meter_validated_daily
+   INSTEAD OF INSERT ON vw_txn_meter_validated_daily
+   FOR EACH ROW EXECUTE PROCEDURE fn_txn_meter_validated_daily_insert();
+
+CREATE RULE rl_txn_meter_validated_daily AS
+      ON INSERT TO txn_meter_validated_daily
+      DO INSTEAD INSERT INTO vw_txn_meter_validated_daily VALUES (NEW.*);
+
+DROP TRIGGER tr_txn_meter_validated_daily_insert ON txn_meter_validated_daily;
+
+--to give access to newly-created view
+ALTER VIEW vw_txn_meter_validated_daily OWNER TO postgres;
+GRANT ALL ON vw_txn_meter_validated_daily TO crss;
+GRANT ALL ON vw_txn_meter_validated_daily TO crss_meterprocess;
+
+/***txn_meter_raw_mq_daily***/
+CREATE VIEW vw_txn_meter_raw_mq_daily AS SELECT * FROM txn_meter_raw_mq_daily;
+
+CREATE TRIGGER tr_vw_txn_meter_raw_mq_daily
+   INSTEAD OF INSERT ON vw_txn_meter_raw_mq_daily
+   FOR EACH ROW EXECUTE PROCEDURE fn_txn_meter_raw_mq_daily_insert();
+
+CREATE RULE rl_txn_meter_raw_mq_daily AS
+      ON INSERT TO txn_meter_raw_mq_daily
+      DO INSTEAD INSERT INTO vw_txn_meter_raw_mq_daily VALUES (NEW.*);
+
+DROP TRIGGER tr_txn_meter_raw_mq_daily_insert ON txn_meter_raw_mq_daily;
+
+--to give access to newly-created view
+ALTER VIEW vw_txn_meter_raw_mq_daily OWNER TO postgres;
+GRANT ALL ON vw_txn_meter_raw_mq_daily TO crss;
+GRANT ALL ON vw_txn_meter_raw_mq_daily TO crss_meterprocess;
+
+
+/***txn_meter_ssla_mq_daily***/
+CREATE VIEW vw_txn_meter_ssla_mq_daily AS SELECT * FROM txn_meter_ssla_mq_daily;
+
+CREATE TRIGGER tr_vw_txn_meter_ssla_mq_daily
+   INSTEAD OF INSERT ON vw_txn_meter_ssla_mq_daily
+   FOR EACH ROW EXECUTE PROCEDURE fn_txn_meter_ssla_mq_daily_insert();
+
+CREATE RULE rl_txn_meter_ssla_mq_daily AS
+      ON INSERT TO txn_meter_ssla_mq_daily
+      DO INSTEAD INSERT INTO vw_txn_meter_ssla_mq_daily VALUES (NEW.*);
+
+DROP TRIGGER tr_txn_meter_ssla_mq_daily_insert ON txn_meter_ssla_mq_daily;
+
+--to give access to newly-created view
+ALTER VIEW vw_txn_meter_ssla_mq_daily OWNER TO postgres;
+GRANT ALL ON vw_txn_meter_ssla_mq_daily TO crss;
+GRANT ALL ON vw_txn_meter_ssla_mq_daily TO crss_meterprocess;
+

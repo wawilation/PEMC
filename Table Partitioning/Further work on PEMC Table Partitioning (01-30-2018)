@@ -1,0 +1,4 @@
+Further work on PEMC Table Partitioning (01/30/2018):
+1. Enforce logging of movement from parition to partition and partition to archive.
+2. Test restoration of archived data.
+3. More detailed and user-friendly documentation (MAKE THEM TRULY UNDERSTAND!)

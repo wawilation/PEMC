@@ -1,0 +1,13 @@
+PEMC Comments on CRSS Table Partitioning:
+
+1.) Include METERING schema (to be partitioned).
+
+2.) Explain further and document:
+    a. Rules (timings) of moving data from:
+	- "current 3 months" partition to "historical 13 mos" partition
+	- "historical 13 mos" partition to archive
+
+3.) Explain how adjustment runs will be processed.
+
+4.) Include monitoring/logging of partition transfers, archiving, and archive restorations.
+
