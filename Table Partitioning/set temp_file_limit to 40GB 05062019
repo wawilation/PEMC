@@ -1,0 +1,3 @@
+-c "set session_replication_role = replica;"
+
+-c "SET temp_file_limit = '40960MB';"

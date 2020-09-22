@@ -1,0 +1,104 @@
+pg_dump -v -d crss -s -Fp -f /pg_backup/dumps/crss_dump_schema_only_01182018.sql
+
+psql -d crss_table_partitioning -U postgres -v ON_ERROR_STOP=1 -f /pg_backup/dumps/crss_dump_schema_only_01182018.sql
+
+scp -r /home/wcruz/Downloads/2.3_PROD_DEPLOYMENT_SCRIPTS/SETTLEMENT root@192.168.94.139:/pg_backup/dumps/settlement_2.3
+
+
+
+psql -d crss_table_partitioning -U postgres -v ON_ERROR_STOP=1 -c 'set search_path = settlement;' -f /pg_backup/dumps/settlement_2.3/SETTLEMENT/schema/settlement-1505121488287.sql
+
+psql -d crss_table_partitioning -U postgres -v ON_ERROR_STOP=1 -c 'set search_path = settlement;' -f /pg_backup/dumps/settlement_2.3/SETTLEMENT/schema/settlement-1505132214481.sql
+
+psql -d crss_table_partitioning -U postgres -v ON_ERROR_STOP=1 -c 'set search_path = settlement;' -f /pg_backup/dumps/settlement_2.3/SETTLEMENT/schema/settlement-1505275835803.sql
+
+psql -d crss_table_partitioning -U postgres -v ON_ERROR_STOP=1 -c 'set search_path = settlement;' -f /pg_backup/dumps/settlement_2.3/SETTLEMENT/schema/settlement-1505375134354.sql
+
+psql -d crss_table_partitioning -U postgres -v ON_ERROR_STOP=1 -c 'set search_path = settlement;' -f /pg_backup/dumps/settlement_2.3/SETTLEMENT/schema/settlement-1505792012223.sql
+
+psql -d crss_table_partitioning -U postgres -v ON_ERROR_STOP=1 -c 'set search_path = settlement;' -f /pg_backup/dumps/settlement_2.3/SETTLEMENT/schema/settlement-1505975121359.sql
+
+psql -d crss_table_partitioning -U postgres -v ON_ERROR_STOP=1 -c 'set search_path = settlement;' -f /pg_backup/dumps/settlement_2.3/SETTLEMENT/schema/settlement-1506306906960.sql
+
+psql -d crss_table_partitioning -U postgres -v ON_ERROR_STOP=1 -c 'set search_path = settlement;' -f /pg_backup/dumps/settlement_2.3/SETTLEMENT/schema/settlement-1506396432999.sql
+
+psql -d crss_table_partitioning -U postgres -v ON_ERROR_STOP=1 -c 'set search_path = settlement;' -f /pg_backup/dumps/settlement_2.3/SETTLEMENT/schema/settlement-1506481352231.sql
+
+psql -d crss_table_partitioning -U postgres -v ON_ERROR_STOP=1 -c 'set search_path = settlement;' -f /pg_backup/dumps/settlement_2.3/SETTLEMENT/schema/settlement-1506917642197.sql
+
+psql -d crss_table_partitioning -U postgres -v ON_ERROR_STOP=1 -c 'set search_path = settlement;' -f /pg_backup/dumps/settlement_2.3/SETTLEMENT/schema/settlement-1506939117189.sql
+
+psql -d crss_table_partitioning -U postgres -v ON_ERROR_STOP=1 -c 'set search_path = settlement;' -f /pg_backup/dumps/settlement_2.3/SETTLEMENT/schema/settlement-1507000471581.sql
+
+psql -d crss_table_partitioning -U postgres -v ON_ERROR_STOP=1 -c 'set search_path = settlement;' -f /pg_backup/dumps/settlement_2.3/SETTLEMENT/schema/settlement-1507027018990.sql
+
+psql -d crss_table_partitioning -U postgres -v ON_ERROR_STOP=1 -c 'set search_path = settlement;' -f /pg_backup/dumps/settlement_2.3/SETTLEMENT/schema/settlement-1507178309365.sql
+
+psql -d crss_table_partitioning -U postgres -v ON_ERROR_STOP=1 -c 'set search_path = settlement;' -f /pg_backup/dumps/settlement_2.3/SETTLEMENT/schema/settlement-1507280675053.sql
+
+psql -d crss_table_partitioning -U postgres -v ON_ERROR_STOP=1 -c 'set search_path = settlement;' -f /pg_backup/dumps/settlement_2.3/SETTLEMENT/schema/settlement-1507801958306.sql
+
+psql -d crss_table_partitioning -U postgres -v ON_ERROR_STOP=1 -c 'set search_path = settlement;' -f /pg_backup/dumps/settlement_2.3/SETTLEMENT/schema/settlement-1507901842691.sql
+
+psql -d crss_table_partitioning -U postgres -v ON_ERROR_STOP=1 -c 'set search_path = settlement;' -f /pg_backup/dumps/settlement_2.3/SETTLEMENT/schema/settlement-1508986766508.sql
+
+psql -d crss_table_partitioning -U postgres -v ON_ERROR_STOP=1 -c 'set search_path = settlement;' -f /pg_backup/dumps/settlement_2.3/SETTLEMENT/schema/settlement-1508990031834.sql
+
+psql -d crss_table_partitioning -U postgres -v ON_ERROR_STOP=1 -c 'set search_path = settlement;' -f /pg_backup/dumps/settlement_2.3/SETTLEMENT/schema/settlement-1508998005093.sql
+
+psql -d crss_table_partitioning -U postgres -v ON_ERROR_STOP=1 -c 'set search_path = settlement;' -f /pg_backup/dumps/settlement_2.3/SETTLEMENT/schema/settlement-1509323686699.sql
+
+psql -d crss_table_partitioning -U postgres -v ON_ERROR_STOP=1 -c 'set search_path = settlement;' -f /pg_backup/dumps/settlement_2.3/SETTLEMENT/schema/settlement-1509608702949.sql
+
+psql -d crss_table_partitioning -U postgres -v ON_ERROR_STOP=1 -c 'set search_path = settlement;' -f /pg_backup/dumps/settlement_2.3/SETTLEMENT/schema/settlement-1510221523224.sql
+
+psql -d crss_table_partitioning -U postgres -v ON_ERROR_STOP=1 -c 'set search_path = settlement;' -f /pg_backup/dumps/settlement_2.3/SETTLEMENT/schema/settlement-1510222672941.sql
+
+psql -d crss_table_partitioning -U postgres -v ON_ERROR_STOP=1 -c 'set search_path = settlement;' -f /pg_backup/dumps/settlement_2.3/SETTLEMENT/schema/settlement-1510304481993.sql
+
+psql -d crss_table_partitioning -U postgres -v ON_ERROR_STOP=1 -c 'set search_path = settlement;' -f /pg_backup/dumps/settlement_2.3/SETTLEMENT/schema/settlement-1510808347882.sql
+
+psql -d crss_table_partitioning -U postgres -v ON_ERROR_STOP=1 -c 'set search_path = settlement;' -f /pg_backup/dumps/settlement_2.3/SETTLEMENT/schema/settlement-1510815046320.sql
+
+psql -d crss_table_partitioning -U postgres -v ON_ERROR_STOP=1 -c 'set search_path = settlement;' -f /pg_backup/dumps/settlement_2.3/SETTLEMENT/schema/settlement-1510901546809.sql
+
+psql -d crss_table_partitioning -U postgres -v ON_ERROR_STOP=1 -c 'set search_path = settlement;' -f /pg_backup/dumps/settlement_2.3/SETTLEMENT/schema/settlement-1511148884796.sql
+
+psql -d crss_table_partitioning -U postgres -v ON_ERROR_STOP=1 -c 'set search_path = settlement;' -f /pg_backup/dumps/settlement_2.3/SETTLEMENT/schema/settlement-1511522370899.sql
+
+psql -d crss_table_partitioning -U postgres -v ON_ERROR_STOP=1 -c 'set search_path = settlement;' -f /pg_backup/dumps/settlement_2.3/SETTLEMENT/schema/settlement-1511748650365.sql
+
+psql -d crss_table_partitioning -U postgres -v ON_ERROR_STOP=1 -c 'set search_path = settlement;' -f /pg_backup/dumps/settlement_2.3/SETTLEMENT/schema/settlement-1511862163852.sql
+
+psql -d crss_table_partitioning -U postgres -v ON_ERROR_STOP=1 -c 'set search_path = settlement;' -f /pg_backup/dumps/settlement_2.3/SETTLEMENT/schema/settlement-1512106006165.sql
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

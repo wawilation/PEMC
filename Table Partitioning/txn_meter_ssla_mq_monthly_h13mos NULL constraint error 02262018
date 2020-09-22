@@ -1,0 +1,153 @@
+id                 | bigint                      | not null default nextval('txn_meter_ssla_mq_monthly_id_seq'::regclass) | plain    |              | 
+ created_datetime   | timestamp without time zone |                                                                        | plain    |              | 
+ core_loss          | double precision            |                                                                        | plain    |              | 
+ copper_loss        | double precision            |                                                                        | plain    |              | 
+ i_line             | double precision            |                                                                        | plain    |              | 
+ kw_adj             | double precision            |                                                                        | plain    |              | 
+ kvar_line_loss     | double precision            |                                                                        | plain    |              | 
+ kw_line_loss       | double precision            |                                                                        | plain    |              | 
+ location           | character varying(255)      |                                                                        | extended |              | 
+ meter_process_type | character varying(255)      |                                                                        | extended |              | 
+ pf_lv              | double precision            |                                                                        | plain    |              | 
+ pfm_active         | double precision            |                                                                        | plain    |              | 
+ pfm_reactive       | double precision            |                                                                        | plain    |              | 
+ previous_tot_adj   | double precision            |                                                                        | plain    |              | 
+ r_line             | double precision            |                                                                        | plain    |              | 
+ sslf               | double precision            |                                                                        | plain    |              | 
+ tot_adj            | double precision            |                                                                        | plain    |              | 
+ version            | integer                     |                                                                        | plain    |              | 
+ x_line             | double precision            |                                                                        | plain    |              | 
+ monthly_mq_id      | bigint                      |                                                                        | plain    |      
+
+
+id
+ created_datetime
+ core_loss
+ copper_loss
+ i_line
+ kw_adj
+ kvar_line_loss
+ kw_line_loss
+ location
+ meter_process_type
+ pf_lv
+ pfm_active
+ pfm_reactive
+ previous_tot_adj
+ r_line
+ sslf
+ tot_adj
+ version
+ x_line 
+ monthly_mq_id     
+
+
+
+INSERT INTO meterprocess.txn_meter_ssla_mq_monthly_historical13mos VALUES (NULL, current_date, 1,1,1,1,1,1,'here','here',1,1,1,1,1,1,1,1,1,141967929);
+
+
+INSERT INTO meterprocess.txn_meter_ssla_mq_monthly_historical13mos 
+(created_datetime, core_loss, copper_loss, i_line, kw_adj, kvar_line_loss, kw_line_loss, location, meter_process_type, pf_lv,
+ pfm_active, pfm_reactive, previous_tot_adj, r_line, sslf, tot_adj, version, x_line,  monthly_mq_id) 
+VALUES (current_date, 1,1,1,1,1,1,'here','here',1,1,1,1,1,1,1,1,1,141967930);
+
+
+INSERT INTO meterprocess.txn_meter_ssla_mq_monthly_historical13mos 
+(created_datetime, copper_loss, i_line, kw_adj, kvar_line_loss, kw_line_loss, location, meter_process_type, pf_lv,
+ pfm_active, pfm_reactive, previous_tot_adj, r_line, sslf, tot_adj, version, x_line,  monthly_mq_id) 
+VALUES (current_date, 1,1,1,1,1,'here','here',1,1,1,1,1,1,1,1,1,141967930);
+
+
+
+INSERT INTO meterprocess.txn_meter_ssla_mq_monthly 
+(created_datetime, copper_loss, i_line, kw_adj, kvar_line_loss, kw_line_loss, location, meter_process_type, pf_lv,
+ pfm_active, pfm_reactive, previous_tot_adj, r_line, sslf, tot_adj, version, x_line,  monthly_mq_id) 
+VALUES (current_date, 1,1,1,1,1,'here','here',1,1,1,1,1,1,1,1,1,141967930);
+
+
+
+SELECT * FROM meterprocess.txn_meter_ssla_mq_monthly_historical13mos WHERE monthly_mq_id = 141967930;
+
+crss_table_partitioning=# INSERT INTO meterprocess.txn_meter_ssla_mq_monthly_historical13mos VALUES (NULL, current_date, 1,1,1,1,1,1,'here','here',1,1,1,1,1,1,1,1,1,141967929);
+ERROR:  null value in column "id" violates not-null constraint
+DETAIL:  Failing row contains (null, 2018-02-26 00:00:00, 1, 1, 1, 1, 1, 1, here, here, 1, 1, 1, 1, 1, 1, 1, 1, 1, 141967929).
+
+crss_table_partitioning=# INSERT INTO meterprocess.txn_meter_ssla_mq_monthly_historical13mos VALUES (DEFAULT,current_date, 1,1,1,1,1,1,'here','here',1,1,1,1,1,1,1,1,1,141967929);
+INSERT 0 1
+
+
+txn_meter_ssla_mq_monthly_h13mos
+
+
+
+
+SELECT * FROM meterprocess.txn_meter_validated_monthly_current3mos A JOIN meterprocess.txn_meter_raw_mq_monthly_current3mos B ON A.id = B.validated_id LEFT JOIN meterprocess.txn_meter_ssla_mq_monthly_current3mos C ON B.id = C.monthly_mq_id
+WHERE C.id IS NULL LIMIT 10;
+
+
+SELECT B.* FROM meterprocess.txn_meter_validated_monthly_historical13mos A JOIN meterprocess.txn_meter_raw_mq_monthly_historical13mos B ON A.id = B.validated_id LEFT JOIN meterprocess.txn_meter_ssla_mq_monthly_historical13mos C ON B.id = C.monthly_mq_id
+WHERE C.id IS NULL LIMIT 10;
+
+--141967929
+--141967930
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----FROM PROD LOG:
+
+[ 2018-02-26 14:08:26 PHT - 23502 generated ] % [ Source: during reqest from 192.168.94.1(26654) using user:crss_dba1 on DB:crss for application:[unknown] backend process:3732 session 5a93a458.e94#3 txn 276/17548792#0ERROR:  null value in column "id" violates not-null constraint
+[ 2018-02-26 14:08:26 PHT - 23502 generated ] % [ Source: during reqest from 192.168.94.1(26654) using user:crss_dba1 on DB:crss for application:[unknown] backend process:3732 session 5a93a458.e94#4 txn 276/17548792#0DETAIL:  Failing row contains (null, 2018-02-26 14:08:26, 0, 0, 4.8347580675778099, 572.669388850997052, 82.4249999999999972, 0.769388850996663987, null, PRELIM, null, 0.0824810888711610957, 0.0118875743140504, 572.669388850997052, 0.00443707271597265033, 1.00134532059975001, 0.769388850996663987, 936, 0.00753141473942043997, 736359854).
+[ 2018-02-26 14:08:26 PHT - 23502 generated ] % [ Source: during reqest from 192.168.94.1(26654) using user:crss_dba1 on DB:crss for application:[unknown] backend process:3732 session 5a93a458.e94#5 txn 276/17548792#0CONTEXT:  SQL statement "INSERT INTO meterprocess.txn_meter_ssla_mq_monthly_h13mos VALUES (NEW.*)"
+        PL/pgSQL function fn_txn_meter_ssla_mq_monthly_insert() line 8 at SQL statement
+
+
+
+
+[ 2018-02-26 14:08:26 PHT - 23502 generated ] % [ Source: during reqest from 192.168.94.1(26654) using user:crss_dba1 on DB:crss for application:[unknown] backend process:3732 session 5a93a458.e94#6 txn 276/17548792#0STATEMENT:  INSERT INTO txn_meter_ssla_mq_monthly (created_datetime,monthly_mq_id,pfm_active,pfm_reactive,i_line,r_line,x_line,kw_line_loss,kvar_line_loss,pf_lv,core_loss,copper_loss,tot_adj,kw_adj,version,sslf,location,meter_process_type, previous_tot_adj) VALUES ('2/26/2018 2:08:26 PM','736359854','0.0824810888711611','0.0118875743140504','4.83475806757781','0.00443707271597265','0.00753141473942044','0.769388850996664','82.425',null,'0','0','0.769388850996664','572.669388850997','936','1.00134532059975',null,'PRELIM','572.669388850997')
+[ 2018-02-26 14:08:26 PHT - 00000 generated ] % [ Source: during reqest from 10.176.11.129(52308) using user:[unknown] on DB:[unknown] for application:[unknown] backend process:3878 session 5a93a45a.f26#1 txn #0LOG:  connection received: host=10.176.11.129 port=52308
+[ 2018-02-26 14:08:26 PHT - 00000 generated ] % [ Source: during reqest from 10.176.11.129(52308) using user:efm_check_user on DB:efm_check_db for application:[unknown] backend process:3878 session 5a93a45a.f26#2 txn 298/16766438#0LOG:  connection authorized: user=efm_check_user database=efm_check_db
+[ 2018-02-26 14:08:26 PHT - 00000 generated ] % [ Source: during reqest from 10.176.11.129(52308) using user:efm_check_user on DB:efm_check_db for application:'efm-2.1' backend process:3878 session 5a93a45a.f26#3 txn #0LOG:  disconnection: session time: 0:00:00.002 user=efm_check_user database=efm_check_db host=10.176.11.129 port=52308
+[ 2018-02-26 14:08:26 PHT - 23502 generated ] % [ Source: during reqest from 192.168.94.1(26654) using user:crss_dba1 on DB:crss for application:[unknown] backend process:3732 session 5a93a458.e94#7 txn 276/17548793#0ERROR:  null value in column "id" violates not-null constraint
+[ 2018-02-26 14:08:26 PHT - 23502 generated ] % [ Source: during reqest from 192.168.94.1(26654) using user:crss_dba1 on DB:crss for application:[unknown] backend process:3732 session 5a93a458.e94#8 txn 276/17548793#0DETAIL:  Failing row contains (null, 2018-02-26 14:08:26, 0, 0, 1.3778723628293299, 141.158606197849991, 85.75, 0.575272897850153009, null, PRELIM, null, 0.0711432798362156976, 0.0433944487070679966, 141.158606197849991, 0.0192895898073336992, 1.00409204195367008, 0.575272897850153009, 936, 0.0327418346040067032, 730891715).
+[ 2018-02-26 14:08:26 PHT - 23502 generated ] % [ Source: during reqest from 192.168.94.1(26654) using user:crss_dba1 on DB:crss for application:[unknown] backend process:3732 session 5a93a458.e94#9 txn 276/17548793#0CONTEXT:  SQL statement "INSERT INTO meterprocess.txn_meter_ssla_mq_monthly_h13mos VALUES (NEW.*)"
+        PL/pgSQL function fn_txn_meter_ssla_mq_monthly_insert() line 8 at SQL statement
+
+
+INSERT INTO txn_meter_ssla_mq_monthly 
+(created_datetime,
+monthly_mq_id,
+pfm_active,
+pfm_reactive,
+i_line,
+r_line,
+x_line,
+kw_line_loss,
+kvar_line_loss,
+pf_lv,
+core_loss,
+copper_loss,
+tot_adj,kw_adj,
+version,
+sslf,
+location,
+meter_process_type, 
+previous_tot_adj) VALUES ('2/26/2018 2:08:26 PM','736359854','0.0824810888711611','0.0118875743140504','4.83475806757781','0.00443707271597265','0.00753141473942044','0.769388850996664',
+'82.425',null,'0','0','0.769388850996664','572.669388850997','936','1.00134532059975',null,'PRELIM','572.669388850997')
+
+
+
+
+
+
+

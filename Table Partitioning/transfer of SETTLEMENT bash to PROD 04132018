@@ -1,0 +1,140 @@
+ls -1 | wc -l
+
+
+[root@db1 backup]# ls -1 | wc -l
+76
+
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_bilateral_energy_qty_monthly_adjusted_PROD_log/settlement_txn_output_ready_bilateral_energy_qty_monthly_adjusted_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_bilateral_energy_qty_monthly_adjusted_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_bilateral_energy_qty_monthly_final_PROD_log/settlement_txn_output_ready_bilateral_energy_qty_monthly_final_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_bilateral_energy_qty_monthly_final_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_bilateral_energy_qty_monthly_prelim_PROD_log/settlement_txn_output_ready_bilateral_energy_qty_monthly_prelim_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_bilateral_energy_qty_monthly_prelim_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_energy_qty_monthly_adjusted_PROD_log/settlement_txn_output_ready_energy_qty_monthly_adjusted_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_energy_qty_monthly_adjusted_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_energy_qty_monthly_final_PROD_log/settlement_txn_output_ready_energy_qty_monthly_final_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_energy_qty_monthly_final_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_energy_qty_monthly_prelim_PROD_log/settlement_txn_output_ready_energy_qty_monthly_prelim_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_energy_qty_monthly_prelim_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_eta_monthly_adjusted_PROD_log/settlement_txn_output_ready_eta_monthly_adjusted_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_eta_monthly_adjusted_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_eta_monthly_final_PROD_log/settlement_txn_output_ready_eta_monthly_final_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_eta_monthly_final_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_eta_monthly_prelim_PROD_log/settlement_txn_output_ready_eta_monthly_prelim_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_eta_monthly_prelim_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_gmrvat_monthly_adjusted_PROD_log/settlement_txn_output_ready_gmrvat_monthly_adjusted_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_gmrvat_monthly_adjusted_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_gmrvat_monthly_final_PROD_log/settlement_txn_output_ready_gmrvat_monthly_final_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_gmrvat_monthly_final_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_gmrvat_monthly_prelim_PROD_log/settlement_txn_output_ready_gmrvat_monthly_prelim_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_gmrvat_monthly_prelim_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_lr_monthly_adjusted_PROD_log/settlement_txn_output_ready_lr_monthly_adjusted_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_lr_monthly_adjusted_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_lr_monthly_final_PROD_log/settlement_txn_output_ready_lr_monthly_final_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_lr_monthly_final_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_lr_monthly_prelim_PROD_log/settlement_txn_output_ready_lr_monthly_prelim_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_lr_monthly_prelim_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_market_fee_monthly_adjusted_PROD_log/settlement_txn_output_ready_market_fee_monthly_adjusted_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_market_fee_monthly_adjusted_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_market_fee_monthly_final_PROD_log/settlement_txn_output_ready_market_fee_monthly_final_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_market_fee_monthly_final_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_market_fee_monthly_prelim_PROD_log/settlement_txn_output_ready_market_fee_monthly_prelim_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_market_fee_monthly_prelim_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_market_fee_reserve_monthly_adjusted_PROD_log/settlement_txn_output_ready_market_fee_reserve_monthly_adjusted_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_market_fee_reserve_monthly_adjusted_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_market_fee_reserve_monthly_final_PROD_log/settlement_txn_output_ready_market_fee_reserve_monthly_final_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_market_fee_reserve_monthly_final_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_market_fee_reserve_monthly_prelim_PROD_log/settlement_txn_output_ready_market_fee_reserve_monthly_prelim_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_market_fee_reserve_monthly_prelim_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_mf_energy_monthly_adjusted_PROD_log/settlement_txn_output_ready_mf_energy_monthly_adjusted_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_mf_energy_monthly_adjusted_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_mf_energy_monthly_final_PROD_log/settlement_txn_output_ready_mf_energy_monthly_final_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_mf_energy_monthly_final_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_mf_energy_monthly_prelim_PROD_log/settlement_txn_output_ready_mf_energy_monthly_prelim_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_mf_energy_monthly_prelim_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_mf_reserve_monthly_adjusted_PROD_log/settlement_txn_output_ready_mf_reserve_monthly_adjusted_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_mf_reserve_monthly_adjusted_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_mf_reserve_monthly_final_PROD_log/settlement_txn_output_ready_mf_reserve_monthly_final_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_mf_reserve_monthly_final_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_mf_reserve_monthly_prelim_PROD_log/settlement_txn_output_ready_mf_reserve_monthly_prelim_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_mf_reserve_monthly_prelim_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_mf_reserve_qty_monthly_adjusted_PROD_log/settlement_txn_output_ready_mf_reserve_qty_monthly_adjusted_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_mf_reserve_qty_monthly_adjusted_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_mf_reserve_qty_monthly_final_PROD_log/settlement_txn_output_ready_mf_reserve_qty_monthly_final_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_mf_reserve_qty_monthly_final_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_mf_reserve_qty_monthly_prelim_PROD_log/settlement_txn_output_ready_mf_reserve_qty_monthly_prelim_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_mf_reserve_qty_monthly_prelim_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_nss_flowback_monthly_adjusted_PROD_log/settlement_txn_output_ready_nss_flowback_monthly_adjusted_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_nss_flowback_monthly_adjusted_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_nss_flowback_monthly_final_PROD_log/settlement_txn_output_ready_nss_flowback_monthly_final_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_nss_flowback_monthly_final_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_nss_flowback_monthly_prelim_PROD_log/settlement_txn_output_ready_nss_flowback_monthly_prelim_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_nss_flowback_monthly_prelim_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_process_disagg_bcq_monthly_adjusted_PROD_log/settlement_txn_output_ready_process_disagg_bcq_monthly_adjusted_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_process_disagg_bcq_monthly_adjusted_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_process_disagg_bcq_monthly_final_PROD_log/settlement_txn_output_ready_process_disagg_bcq_monthly_final_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_process_disagg_bcq_monthly_final_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_process_disagg_bcq_monthly_prelim_PROD_log/settlement_txn_output_ready_process_disagg_bcq_monthly_prelim_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_process_disagg_bcq_monthly_prelim_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_process_gmr_monthly_adjusted_PROD_log/settlement_txn_output_ready_process_gmr_monthly_adjusted_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_process_gmr_monthly_adjusted_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_process_gmr_monthly_final_PROD_log/settlement_txn_output_ready_process_gmr_monthly_final_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_process_gmr_monthly_final_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_process_gmr_monthly_prelim_PROD_log/settlement_txn_output_ready_process_gmr_monthly_prelim_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_process_gmr_monthly_prelim_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_process_nss_monthly_adjusted_PROD_log/settlement_txn_output_ready_process_nss_monthly_adjusted_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_process_nss_monthly_adjusted_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_process_nss_monthly_final_PROD_log/settlement_txn_output_ready_process_nss_monthly_final_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_process_nss_monthly_final_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_process_nss_monthly_prelim_PROD_log/settlement_txn_output_ready_process_nss_monthly_prelim_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_process_nss_monthly_prelim_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_process_rgmr_monthly_adjusted_PROD_log/settlement_txn_output_ready_process_rgmr_monthly_adjusted_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_process_rgmr_monthly_adjusted_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_process_rgmr_monthly_final_PROD_log/settlement_txn_output_ready_process_rgmr_monthly_final_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_process_rgmr_monthly_final_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_process_rgmr_monthly_prelim_PROD_log/settlement_txn_output_ready_process_rgmr_monthly_prelim_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_process_rgmr_monthly_prelim_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_process_rp_rta_monthly_adjusted_PROD_log/settlement_txn_output_ready_process_rp_rta_monthly_adjusted_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_process_rp_rta_monthly_adjusted_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_process_rp_rta_monthly_final_PROD_log/settlement_txn_output_ready_process_rp_rta_monthly_final_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_process_rp_rta_monthly_final_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_process_rp_rta_monthly_prelim_PROD_log/settlement_txn_output_ready_process_rp_rta_monthly_prelim_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_process_rp_rta_monthly_prelim_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_process_spotqty_monthly_adjusted_PROD_log/settlement_txn_output_ready_process_spotqty_monthly_adjusted_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_process_spotqty_monthly_adjusted_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_process_spotqty_monthly_final_PROD_log/settlement_txn_output_ready_process_spotqty_monthly_final_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_process_spotqty_monthly_final_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_process_spotqty_monthly_prelim_PROD_log/settlement_txn_output_ready_process_spotqty_monthly_prelim_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_process_spotqty_monthly_prelim_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_rcra_monthly_adjusted_PROD_log/settlement_txn_output_ready_rcra_monthly_adjusted_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_rcra_monthly_adjusted_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_rcra_monthly_final_PROD_log/settlement_txn_output_ready_rcra_monthly_final_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_rcra_monthly_final_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_rcra_monthly_prelim_PROD_log/settlement_txn_output_ready_rcra_monthly_prelim_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_rcra_monthly_prelim_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_reserve_qty_monthly_adjusted_PROD_log/settlement_txn_output_ready_reserve_qty_monthly_adjusted_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_reserve_qty_monthly_adjusted_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_reserve_qty_monthly_final_PROD_log/settlement_txn_output_ready_reserve_qty_monthly_final_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_reserve_qty_monthly_final_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_reserve_qty_monthly_prelim_PROD_log/settlement_txn_output_ready_reserve_qty_monthly_prelim_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_reserve_qty_monthly_prelim_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_rgmrvat_monthly_adjusted_PROD_log/settlement_txn_output_ready_rgmrvat_monthly_adjusted_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_rgmrvat_monthly_adjusted_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_rgmrvat_monthly_final_PROD_log/settlement_txn_output_ready_rgmrvat_monthly_final_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_rgmrvat_monthly_final_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_rgmrvat_monthly_prelim_PROD_log/settlement_txn_output_ready_rgmrvat_monthly_prelim_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_rgmrvat_monthly_prelim_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_rta_monthly_adjusted_PROD_log/settlement_txn_output_ready_rta_monthly_adjusted_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_rta_monthly_adjusted_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_rta_monthly_final_PROD_log/settlement_txn_output_ready_rta_monthly_final_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_rta_monthly_final_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_rta_monthly_prelim_PROD_log/settlement_txn_output_ready_rta_monthly_prelim_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_rta_monthly_prelim_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_runway_monthly_adjusted_PROD_log/settlement_txn_output_ready_runway_monthly_adjusted_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_runway_monthly_adjusted_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_runway_monthly_final_PROD_log/settlement_txn_output_ready_runway_monthly_final_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_runway_monthly_final_transfer.sh
+
+scp "/home/wcruz/wcruz/EXIST/PEMC/PEMC Table Partitioning/SETTLEMENT/txn_output_ready_runway_monthly_prelim_PROD_log/settlement_txn_output_ready_runway_monthly_prelim_transfer_PROD_LOG.sh" root@192.168.94.139:/pg_data/edb/as9.6/data/bash/settlement_txn_output_ready_runway_monthly_prelim_transfer.sh
+
+

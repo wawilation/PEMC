@@ -1,0 +1,6 @@
+psql -d crss -U postgres -c 'set search_path = meterprocess;' -f /pg_backup/VACUUM_ANALYZE_METERPROCESS.sql
+
+
+
+
+scp VACUUM_ANALYZE_METERPROCESS.sql root@192.168.94.139:/pg_backup/

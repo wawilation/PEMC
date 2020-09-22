@@ -1,0 +1,136 @@
+select * from pg_stat_all_tables where relname = 'txn_meter_ssla_mq_monthly_c3mos';
+
+select * from pg_stat_all_tables where relname = 'txn_meter_ssla_mq_monthly_h13mos';
+
+ly_h13mos';ct * from pg_stat_all_tables where relname = 'txn_meter_ssla_mq_month
+-[ RECORD 1 ]-------+---------------------------------
+relid               | 2110889
+schemaname          | meterprocess
+relname             | txn_meter_ssla_mq_monthly_h13mos
+seq_scan            | 64
+seq_tup_read        | 152741188
+idx_scan            | 24651951
+idx_tup_fetch       | 6
+n_tup_ins           | 18956832
+n_tup_upd           | 0
+n_tup_del           | 2233800
+n_tup_hot_upd       | 0
+n_live_tup          | 16723339
+n_dead_tup          | 0
+n_mod_since_analyze | 0
+last_vacuum         | 2018-02-15 00:10:39.245336+08
+last_autovacuum     |
+last_analyze        | 2018-02-15 00:10:44.123464+08
+last_autoanalyze    | 2018-02-14 05:31:24.989076+08
+vacuum_count        | 3
+autovacuum_count    | 0
+analyze_count       | 3
+autoanalyze_count   | 1
+
+
+
+select 18956832 - 2233800
+
+select * from pg_stat_activity where usename = 'postgres';
+
+
+
+if [ "$?" = "0" ]; then
+					#delete from historical 13 mos
+/Postgres/edb/as9.6/bin/psql -p 5432 -U postgres -d crss -c "set session_replication_role = replica;" -c "DELETE FROM meterprocess.txn_meter_ssla_mq_monthly_h13mos A USING (SELECT B.id FROM meterprocess.txn_meter_raw_mq_monthly_h13mos B JOIN meterprocess.txn_meter_validated_monthly_h13mos C ON B.validated_id = C.id WHERE C.created_date_time < '$FINAL_DATE_h13mos') D WHERE A.monthly_mq_id = D.id;" -c "DELETE FROM meterprocess.txn_meter_raw_mq_monthly_h13mos A USING meterprocess.txn_meter_validated_monthly_h13mos B WHERE A.validated_id = B.id AND B.created_date_time < '$FINAL_DATE_h13mos';" -c "DELETE FROM meterprocess.txn_meter_validated_monthly_h13mos A WHERE A.created_date_time < '$FINAL_DATE_h13mos';"
+
+if [ "$?" = "0" ]; then
+					#delete from historical 13 mos
+/Postgres/edb/as9.6/bin/psql -p 5432 -U postgres -d crss -c "set session_replication_role = replica;" -c "DELETE FROM meterprocess.txn_meter_ssla_mq_daily_h13mos A USING (SELECT B.id FROM meterprocess.txn_meter_raw_mq_daily_h13mos B JOIN meterprocess.txn_meter_validated_daily_h13mos C ON B.validated_id = C.id WHERE C.created_date_time < '$FINAL_DATE_h13mos') D WHERE A.daily_mq_id = D.id;" -c "DELETE FROM meterprocess.txn_meter_raw_mq_daily_h13mos A USING meterprocess.txn_meter_validated_daily_h13mos B WHERE A.validated_id = B.id AND B.created_date_time < '$FINAL_DATE_h13mos';" -c "DELETE FROM meterprocess.txn_meter_validated_daily_h13mos A WHERE A.created_date_time < '$FINAL_DATE_h13mos';"		
+
+
+
+-c "DELETE FROM meterprocess.txn_meter_ssla_mq_monthly_h13mos A USING (SELECT B.id FROM meterprocess.txn_meter_raw_mq_monthly_h13mos B JOIN meterprocess.txn_meter_validated_monthly_h13mos C ON B.validated_id = C.id WHERE C.created_date_time < '$FINAL_DATE_h13mos') D WHERE A.monthly_mq_id = D.id;"
+
+-c "COPY(
+SELECT C.* FROM meterprocess.txn_meter_validated_monthly_h13mos A JOIN meterprocess.txn_meter_raw_mq_monthly_h13mos B ON A.id = B.validated_id JOIN meterprocess.txn_meter_ssla_mq_monthly_h13mos C ON B.id = C.monthly_mq_id WHERE A.created_date_time < '$FINAL_DATE_h13mos') TO '/pg_backup/data_archive/crss_meterprocess.txn_meter_ssla_mq_monthly_h13mos_$FINAL_DATE_h13mos.dat';"
+gzip /pg_backup/data_archive/crss_meterprocess.txn_meter_ssla_mq_monthly_h13mos_$FINAL_DATE_h13mos.dat
+
+
+
+
+-c "DELETE FROM meterprocess.txn_meter_ssla_mq_daily_h13mos A USING (SELECT B.id FROM meterprocess.txn_meter_raw_mq_daily_h13mos B JOIN meterprocess.txn_meter_validated_daily_h13mos C ON B.validated_id = C.id WHERE C.created_date_time < '$FINAL_DATE_h13mos') D WHERE A.daily_mq_id = D.id;"
+
+
+SELECT count(C.*) FROM meterprocess.txn_meter_validated_monthly_historical13mos A JOIN meterprocess.txn_meter_raw_mq_monthly_historical13mos B ON A.id = B.validated_id JOIN meterprocess.txn_meter_ssla_mq_monthly_historical13mos C ON B.id = C.monthly_mq_id WHERE A.created_date_time < '2018-02-26';
+
+
+
+SELECT C.* FROM meterprocess.txn_meter_validated_monthly_historical13mos A JOIN meterprocess.txn_meter_raw_mq_monthly_historical13mos B ON A.id = B.validated_id JOIN meterprocess.txn_meter_ssla_mq_monthly_historical13mos C ON B.id = C.monthly_mq_id limit 10;
+
+
+SELECT A.id, B.id FROM meterprocess.txn_meter_validated_monthly_historical13mos A JOIN meterprocess.txn_meter_raw_mq_monthly_historical13mos B ON A.id = B.validated_id limit 10;
+  id    |    id     
+---------+-----------
+ 2999503 | 127938260
+ 2557575 | 127938856
+ 2557598 | 127938879
+ 2557896 | 127939175
+ 2558105 | 127939384
+ 2558345 | 127939624
+ 2558453 | 127939732
+ 2558511 | 127939790
+ 2559045 | 127940324
+(10 rows)
+
+
+
+      Column       |            Type             |                               Modifiers                                | Storage  | Stats target | Description 
+--------------------+-----------------------------+------------------------------------------------------------------------+----------+--------------+-------------
+ id                 | bigint                      | not null default nextval('txn_meter_ssla_mq_monthly_id_seq'::regclass) | plain    |              | 
+ created_datetime   | timestamp without time zone |                                                                        | plain    |              | 
+ core_loss          | double precision            |                                                                        | plain    |              | 
+ copper_loss        | double precision            |                                                                        | plain    |              | 
+ i_line             | double precision            |                                                                        | plain    |              | 
+ kw_adj             | double precision            |                                                                        | plain    |              | 
+ kvar_line_loss     | double precision            |                                                                        | plain    |              | 
+ kw_line_loss       | double precision            |                                                                        | plain    |              | 
+ location           | character varying(255)      |                                                                        | extended |              | 
+ meter_process_type | character varying(255)      |                                                                        | extended |              | 
+ pf_lv              | double precision            |                                                                        | plain    |              | 
+ pfm_active         | double precision            |                                                                        | plain    |              | 
+ pfm_reactive       | double precision            |                                                                        | plain    |              | 
+ previous_tot_adj   | double precision            |                                                                        | plain    |              | 
+ r_line             | double precision            |                                                                        | plain    |              | 
+ sslf               | double precision            |                                                                        | plain    |              | 
+ tot_adj            | double precision            |                                                                        | plain    |              | 
+ version            | integer                     |                                                                        | plain    |              | 
+ x_line             | double precision            |                                                                        | plain    |              | 
+ monthly_mq_id      | bigint                      |                                                                        | plain    |              | 
+
+[ RECORD 1 ]-
+id | 2555336
+id | 152941091
+
+
+insert into meterprocess.txn_meter_ssla_mq_monthly_historical13mos values (1,current_date,1,1,1,1,1,1,'1','1',1,1,1,1,1,1,1,1,1,152941091)
+insert into meterprocess.txn_meter_ssla_mq_monthly_historical13mos values (2,current_date,1,1,1,1,1,1,'1','1',1,1,1,1,1,1,1,1,1,127938254)
+insert into meterprocess.txn_meter_ssla_mq_monthly_historical13mos values (2,current_date,1,1,1,1,1,1,'1','1',1,1,1,1,1,1,1,1,1,127938260)
+
+SELECT A.* FROM meterprocess.txn_meter_validated_monthly_historical13mos A JOIN meterprocess.txn_meter_raw_mq_monthly_historical13mos B ON A.id = B.validated_id where A.id = 2999503 and B.id = 127938260;
+
+UPDATE txn_meter_validated_monthly_historical13mos A
+SET created_date_time = '2014-08-04 11:15:21.526'
+FROM txn_meter_raw_mq_monthly_historical13mos B 
+WHERE A.id = B.validated_id and
+A.id = 2999503 and B.id = 127938260;
+
+
+select * from meterprocess.txn_meter_ssla_mq_monthly_historical13mos;
+
+
+scp meterprocess_txn_meter_validated_monthly_transfer_TEMP.sh pemc@192.168.233.9:/home/pemc/meterprocess_txn_meter_validated_monthly_transfer.sh
+
+sudo cp /home/pemc/meterprocess_txn_meter_validated_monthly_transfer.sh /var/lib/pgsql/9.6/
+
+/usr/pgsql-9.6/bin/psql
+
+
+:%s/\/Postgres/edb/as9.6/bin/psql\/\/usr/pgsql-9.6/bin/psql/g
+
+
