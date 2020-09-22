@@ -1,0 +1,180 @@
+/*bash-4.2$ echo $FINAL_DATE_CURRENT3MOS
+2017-08-26
+bash-4.2$ echo $FINAL_DATE_HISTORICAL13MOS
+2016-10-26*/
+
+crss_table_partitioning=# select count(1) from only txn_meter_validated_monthly;
+  count   
+----------
+ 11470825
+(1 row)
+
+crss_table_partitioning=# select count(1) from only txn_meter_raw_mq_monthly;
+  count  
+---------
+ 8023538
+(1 row)
+
+crss_table_partitioning=# select count(1) from only txn_meter_ssla_mq_monthly;
+ count 
+-------
+     0
+(1 row)
+
+
+
+/***********txn_meter_validated_monthly***********/
+/**TOTAL**/
+crss_table_partitioning=# select count(1) from only txn_meter_validated_monthly;
+ count 
+-------
+     0
+(1 row)
+
+crss_table_partitioning=# select count(1) from only txn_meter_validated_monthly_current3mos;                                
+  count   
+----------
+ 11470825
+(1 row)
+
+
+crss_table_partitioning=# select count(1) from only txn_meter_validated_monthly_historical13mos;
+ count 
+-------
+     0
+(1 row)
+
+
+/***ACTUALLY CURRENT***/
+crss_table_partitioning=# SELECT COUNT(1) FROM meterprocess.txn_meter_validated_monthly_current3mos WHERE reading_datetime >
+= '2017-08-26';                                                                                                             
+ count 
+-------
+     0
+(1 row)
+
+/**current3mos to move to historical13mos**/
+crss_table_partitioning=# SELECT COUNT(1) FROM meterprocess.txn_meter_validated_monthly_current3mos WHERE reading_datetime <
+ '2017-08-26';                                                                                                              
+  count   
+----------
+ 11470825
+(1 row)
+
+/**historical13mos to move to archive file**/
+crss_table_partitioning=# SELECT COUNT(1) FROM meterprocess.txn_meter_validated_monthly_current3mos WHERE reading_datetime <
+ '2016-10-26';                                                                                                              
+  count  
+---------
+ 2732398
+(1 row)
+
+----AFTER CRON JOB RUN
+crss_table_partitioning=# select count(1) from only txn_meter_validated_monthly_historical13mos;
+-[ RECORD 1 ]--
+count | 8738427 = 11470825 - 2732398
+
+
+
+
+
+/***********txn_meter_raw_mq_monthly***********/
+crss_table_partitioning=# select count(1) from only txn_meter_raw_mq_monthly;
+ count 
+-------
+     0
+(1 row)
+
+crss_table_partitioning=# select count(1) from only txn_meter_raw_mq_monthly_current3mos;
+  count  
+---------
+ 8023538
+(1 row)
+
+
+crss_table_partitioning=# select count(1) from only txn_meter_raw_mq_monthly_historical13mos;
+ count 
+-------
+     0
+(1 row)
+
+
+
+/***ACTUALLY CURRENT***/
+crss_table_partitioning=# SELECT COUNT(B.*) FROM meterprocess.txn_meter_validated_monthly_current3mos A JOIN meterprocess.txn_meter_raw_mq_monthly_current3mos B ON A.id = B.validated_id WHERE A.reading_datetime >= '2017-08-26';
+ count 
+-------
+     0
+(1 row)
+
+/**current3mos to move to historical13mos**/
+crss_table_partitioning=# SELECT COUNT(B.*) FROM meterprocess.txn_meter_validated_monthly_current3mos A JOIN meterprocess.txn_meter_raw_mq_monthly_current3mos B ON A.id = B.validated_id WHERE A.reading_datetime < '2017-08-26';
+  count  
+---------
+ 8023538
+(1 row)
+
+/**historical13mos to move to archive file**/
+crss_table_partitioning=# SELECT COUNT(B.*) FROM meterprocess.txn_meter_validated_monthly_current3mos A JOIN meterprocess.txn_meter_raw_mq_monthly_current3mos B ON A.id = B.validated_id WHERE A.reading_datetime < '2016-10-26';
+ count 
+-------
+ 18986
+(1 row)
+
+
+----AFTER CRON JOB RUN
+crss_table_partitioning=# select count(1) from only txn_meter_raw_mq_monthly_historical13mos;
+-[ RECORD 1 ]--
+count | 8004552 = 8023538 - 18986
+
+
+
+/***********txn_meter_ssla_mq_monthly***********/
+crss_table_partitioning=# select count(1) from only txn_meter_ssla_mq_monthly;
+ count 
+-------
+     0
+(1 row)
+
+crss_table_partitioning=# select count(1) from only txn_meter_ssla_mq_monthly_current3mos;
+ count 
+-------
+     0
+(1 row)
+
+
+crss_table_partitioning=# select count(1) from only txn_meter_ssla_mq_monthly_historical13mos;
+ count 
+-------
+     0
+(1 row)
+
+
+/***ACTUALLY CURRENT***/
+crss=# SELECT COUNT(C.*) FROM meterprocess.txn_meter_validated_monthly_current3mos A JOIN meterprocess.txn_meter_raw_mq_monthly_current3mos B ON A.id = B.validated_id JOIN meterprocess.txn_meter_ssla_mq_monthly_current3mos C ON B.id = C.daily_mq_id WHERE A.reading_datetime >= '2017-08-26';
+ count 
+-------
+     0
+(1 row)
+
+/**current3mos to move to historical13mos**/
+crss=# SELECT COUNT(C.*) FROM meterprocess.txn_meter_validated_monthly_current3mos A JOIN meterprocess.txn_meter_raw_mq_monthly_current3mos B ON A.id = B.validated_id JOIN meterprocess.txn_meter_ssla_mq_monthly_current3mos C ON B.id = C.daily_mq_id WHERE A.reading_datetime < '2017-08-26';
+ count 
+-------
+     0
+(1 row)
+
+/**historical13mos to move to archive file**/
+crss=# SELECT COUNT(C.*) FROM meterprocess.txn_meter_validated_monthly_current3mos A JOIN meterprocess.txn_meter_raw_mq_monthly_current3mos B ON A.id = B.validated_id JOIN meterprocess.txn_meter_ssla_mq_monthly_current3mos C ON B.id = C.daily_mq_id WHERE A.reading_datetime < '2016-10-26';
+ count 
+-------
+     0
+(1 row)
+
+
+----AFTER CRON JOB RUN
+crss=# select count(1) from only txn_meter_ssla_mq_monthly_historical13mos;
+ count 
+-------
+     0
+(1 row)

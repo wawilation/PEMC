@@ -1,0 +1,67 @@
+/****txn_stl_gesq_final_monthly****/
+1.)
+CREATE TABLE txn_stl_gesq_final_monthly_2 (
+    id bigint NOT NULL,
+    created_datetime timestamp without time zone,
+    actual_mtn character varying(255),
+    actual_sein character varying(255),
+    facility_type character varying(255),
+    gesq double precision,
+    market_fee double precision,
+    mtn character varying(255),
+    mtn_active character(1),
+    mtn_facility_type character varying(255),
+    reading_datetime timestamp without time zone,
+    sein character varying(255),
+    trade_participant_application_status character varying(255),
+    version bigint
+);
+
+ALTER TABLE txn_stl_gesq_final_monthly_2 OWNER TO crss_meterprocess;
+
+ALTER TABLE ONLY txn_stl_gesq_final_monthly_2
+    ADD CONSTRAINT txn_stl_gesq_final_monthlypk_2 PRIMARY KEY (id);
+
+CREATE INDEX idx_rgesq_fnl_rdt_mtn_st_2 ON txn_stl_gesq_final_monthly_2 USING btree (reading_datetime, mtn_active, trade_participant_application_status);
+
+GRANT ALL ON TABLE txn_stl_gesq_final_monthly_2 TO crss_uat_user;
+
+
+2.)
+CREATE TABLE txn_stl_gesq_final_monthly_current3mos (
+) INHERITS (txn_stl_gesq_final_monthly_2);
+
+ALTER TABLE txn_stl_gesq_final_monthly_current3mos OWNER TO crss_meterprocess;
+
+ALTER TABLE ONLY txn_stl_gesq_final_monthly_current3mos ALTER COLUMN id SET DEFAULT nextval('txn_stl_gesq_final_monthly_id_seq'::regclass);
+
+/***load data here, don't create indices yet for faster loading***/
+----Migrate from original table to "current 3 mos" partition
+INSERT INTO txn_stl_gesq_final_monthly_current3mos
+SELECT * FROM txn_stl_gesq_final_monthly;
+/*****************************************************************/
+
+ALTER TABLE ONLY txn_stl_gesq_final_monthly_current3mos
+    ADD CONSTRAINT txn_stl_gesq_final_monthlypk_current3mos PRIMARY KEY (id);
+
+CREATE INDEX idx_rgesq_fnl_rdt_mtn_st_current3mos ON txn_stl_gesq_final_monthly_current3mos USING btree (reading_datetime, mtn_active, trade_participant_application_status);
+
+GRANT ALL ON TABLE txn_stl_gesq_final_monthly_current3mos TO crss_uat_user;
+
+
+3.)
+CREATE TABLE txn_stl_gesq_final_monthly_historical13mos (
+) INHERITS (txn_stl_gesq_final_monthly_2);
+
+ALTER TABLE txn_stl_gesq_final_monthly_historical13mos OWNER TO crss_meterprocess;
+
+ALTER TABLE ONLY txn_stl_gesq_final_monthly_historical13mos ALTER COLUMN id SET DEFAULT nextval('txn_stl_gesq_final_monthly_id_seq'::regclass);
+
+ALTER TABLE ONLY txn_stl_gesq_final_monthly_historical13mos
+    ADD CONSTRAINT txn_stl_gesq_final_monthlypk_historical13mos PRIMARY KEY (id);
+
+CREATE INDEX idx_rgesq_fnl_rdt_mtn_st_historical13mos ON txn_stl_gesq_final_monthly_historical13mos USING btree (reading_datetime, mtn_active, trade_participant_application_status);
+
+GRANT ALL ON TABLE txn_stl_gesq_final_monthly_historical13mos TO crss_uat_user;
+
+

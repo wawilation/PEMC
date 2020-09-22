@@ -1,0 +1,140 @@
+/*bash-4.2$ echo $FINAL_DATE_c3mos
+2017-10-26
+bash-4.2$ echo $FINAL_DATE_h13mos
+2016-09-26*/
+
+/***********txn_meter_validated_monthly***********/
+/**TOTAL**/
+crss=# select count(1) from only txn_meter_validated_monthly;
+ count 
+-------
+     0
+(1 row)
+
+crss=# select count(1) from only txn_meter_validated_monthly_c3mos;
+  count  
+---------
+ 156,948,604
+(1 row)
+
+
+crss=# select count(1) from only txn_meter_validated_monthly_h13mos;
+ count 
+-------
+     0
+(1 row)
+--143,649,607
+
+
+/***ACTUALLY CURRENT***/
+crss=# SELECT COUNT(1) FROM meterprocess.txn_meter_validated_monthly_c3mos WHERE reading_datetime >= '2017-10-26';
+--13,298,997
+
+/**current3mos to move to historical13mos**/
+crss=# SELECT COUNT(1) FROM meterprocess.txn_meter_validated_monthly_c3mos WHERE reading_datetime < '2017-10-26';
+--143,649,607
+
+select 13298997 + 143649607 = 156,948,604
+
+/**historical13mos to move to archive file**/
+crss=# SELECT COUNT(1) FROM meterprocess.txn_meter_validated_monthly_c3mos WHERE created_date_time < '2016-09-26';
+--0
+
+
+----AFTER CRON JOB RUN
+crss=# select count(1) from only txn_meter_validated_monthly_c3mos;
+-- 13298997
+
+crss=# select count(1) from only txn_meter_validated_monthly_h13mos;
+--143649607
+
+
+
+
+/***********txn_meter_raw_mq_monthly***********/
+/**TOTAL**/
+crss=# select count(1) from only txn_meter_raw_mq_monthly;
+ count 
+-------
+     0
+(1 row)
+
+crss=# select count(1) from only txn_meter_raw_mq_monthly_c3mos;
+  count  
+---------
+ 307,255,500
+(1 row)
+
+
+crss=# select count(1) from only txn_meter_raw_mq_monthly_h13mos;
+ count 
+-------
+     0
+(1 row)
+
+
+
+/***ACTUALLY CURRENT***/
+crss=# SELECT COUNT(B.*) FROM meterprocess.txn_meter_validated_monthly_c3mos A JOIN meterprocess.txn_meter_raw_mq_monthly_c3mos B ON A.id = B.validated_id WHERE A.reading_datetime >= '2017-10-26';
+--7,443,072
+
+/**current3mos to move to historical13mos**/
+crss=# SELECT COUNT(B.*) FROM meterprocess.txn_meter_validated_monthly_c3mos A JOIN meterprocess.txn_meter_raw_mq_monthly_c3mos B ON A.id = B.validated_id WHERE A.reading_datetime < '2017-10-26';
+--299,812,428
+
+select 299812428 + 7443072 = 307255500
+
+/**historical13mos to move to archive file**/
+crss=# SELECT COUNT(B.*) FROM meterprocess.txn_meter_validated_monthly_c3mos A JOIN meterprocess.txn_meter_raw_mq_monthly_c3mos B ON A.id = B.validated_id WHERE A.created_date_time < '2016-09-26';
+--0
+
+----AFTER CRON JOB RUN
+crss=# select count(1) from only txn_meter_raw_mq_monthly_c3mos;
+--7443072
+
+crss=# select count(1) from only txn_meter_raw_mq_monthly_h13mos;
+--299812428
+
+
+/***********txn_meter_ssla_mq_monthly***********/
+/**TOTAL**/
+crss=# select count(1) from only txn_meter_ssla_mq_monthly;
+ count 
+-------
+     0
+(1 row)
+
+crss=# select count(1) from only txn_meter_ssla_mq_monthly_c3mos;
+  count  
+---------
+ 18,956,832
+(1 row)
+
+
+crss=# select count(1) from only txn_meter_ssla_mq_monthly_h13mos;
+ count 
+-------
+     0
+(1 row)
+
+/***ACTUALLY CURRENT***/
+crss=# SELECT COUNT(C.*) FROM meterprocess.txn_meter_validated_monthly_c3mos A JOIN meterprocess.txn_meter_raw_mq_monthly_c3mos B ON A.id = B.validated_id JOIN meterprocess.txn_meter_ssla_mq_monthly_c3mos C ON B.id = C.monthly_mq_id WHERE A.reading_datetime >= '2017-10-26';
+--0
+
+/**current3mos to move to historical13mos**/
+crss=# SELECT COUNT(C.*) FROM meterprocess.txn_meter_validated_monthly_c3mos A JOIN meterprocess.txn_meter_raw_mq_monthly_c3mos B ON A.id = B.validated_id JOIN meterprocess.txn_meter_ssla_mq_monthly_c3mos C ON B.id = C.monthly_mq_id WHERE A.reading_datetime < '2017-10-26';
+--18,956,832
+
+/**historical13mos to move to archive file**/
+crss=# SELECT COUNT(C.*) FROM meterprocess.txn_meter_validated_monthly_c3mos A JOIN meterprocess.txn_meter_raw_mq_monthly_c3mos B ON A.id = B.validated_id JOIN meterprocess.txn_meter_ssla_mq_monthly_c3mos C ON B.id = C.monthly_mq_id WHERE A.created_date_time < '2016-09-26';
+--0
+
+----AFTER CRON JOB RUN
+crss=# select count(1) from only txn_meter_ssla_mq_monthly_c3mos;
+--0
+
+crss=# select count(1) from only txn_meter_ssla_mq_monthly_h13mos;
+--16723032
+
+
+

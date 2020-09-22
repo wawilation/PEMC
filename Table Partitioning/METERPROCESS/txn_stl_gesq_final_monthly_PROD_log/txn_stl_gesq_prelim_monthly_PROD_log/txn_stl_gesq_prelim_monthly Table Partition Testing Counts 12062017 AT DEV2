@@ -1,0 +1,55 @@
+/*bash-4.2$ echo $FINAL_DATE_CURRENT3MOS
+2017-08-26
+bash-4.2$ echo $FINAL_DATE_HISTORICAL13MOS
+2016-10-26*/
+
+crss_table_partitioning=# select count(1) from only txn_stl_gesq_prelim_monthly;
+-[ RECORD 1 ]--
+count | 1594917
+
+
+
+/***********txn_stl_gesq_prelim_monthly***********/
+/**TOTAL**/
+crss_table_partitioning=# select count(1) from only txn_stl_gesq_prelim_monthly;
+ count 
+-------
+     0
+(1 row)
+
+crss_table_partitioning=# select count(1) from only txn_stl_gesq_prelim_monthly_current3mos;
+-[ RECORD 1 ]--
+count | 1594917
+
+
+crss_table_partitioning=# select count(1) from only txn_stl_gesq_prelim_monthly_historical13mos;
+ count 
+-------
+     0
+(1 row)
+
+
+/***ACTUALLY CURRENT***/
+crss_table_partitioning=# SELECT COUNT(1) FROM meterprocess.txn_stl_gesq_prelim_monthly_current3mos WHERE reading_datetime >= '2017-08-26';
+-[ RECORD 1 ]
+count | 92
+
+/**current3mos to move to historical13mos**/
+crss_table_partitioning=# SELECT COUNT(1) FROM meterprocess.txn_stl_gesq_prelim_monthly_current3mos WHERE reading_datetime < '2017-08-26';
+-[ RECORD 1 ]--
+count | 1594825
+
+/**historical13mos to move to archive file**/
+crss_table_partitioning=# SELECT COUNT(1) FROM meterprocess.txn_stl_gesq_prelim_monthly_current3mos WHERE reading_datetime < '2016-10-26';
+-[ RECORD 1 ]
+count | 1711
+
+
+----AFTER CRON JOB RUN
+crss_table_partitioning=# select count(1) from only txn_stl_gesq_prelim_monthly_historical13mos;
+-[ RECORD 1 ]--
+count | 1593114 = 1594825 - 1711
+
+
+
+

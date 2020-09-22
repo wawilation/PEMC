@@ -1,0 +1,66 @@
+/*bash-4.2$ echo $FINAL_DATE_CURRENT3MOS
+2017-08-26
+bash-4.2$ echo $FINAL_DATE_HISTORICAL13MOS
+2016-10-26*/
+
+crss_table_partitioning=# select count(1) from txn_stl_final_monthly;
+  count  
+---------
+ 1582170
+(1 row)
+
+
+
+/***********txn_stl_daily***********/
+/**TOTAL**/
+crss_table_partitioning=# select count(1) from only txn_stl_final_monthly;
+ count 
+-------
+     0
+(1 row)
+
+crss_table_partitioning=# select count(1) from only txn_stl_final_monthly_current3mos;
+  count  
+---------
+ 1582170
+(1 row)
+
+crss_table_partitioning=# select count(1) from only txn_stl_final_monthly_historical13mos;
+ count 
+-------
+     0
+(1 row)
+
+
+/***ACTUALLY CURRENT***/
+crss_table_partitioning=# SELECT COUNT(1) FROM meterprocess.txn_stl_final_monthly_current3mos WHERE reading_datetime >= '2017-08-26';
+ count 
+-------
+     0
+(1 row)
+
+/**current3mos to move to historical13mos**/
+crss_table_partitioning=# SELECT COUNT(1) FROM meterprocess.txn_stl_final_monthly_current3mos WHERE reading_datetime < '2017-08-26';
+  count  
+---------
+ 1582170
+(1 row)
+
+/**historical13mos to move to archive file**/
+crss_table_partitioning=# SELECT COUNT(1) FROM meterprocess.txn_stl_final_monthly_current3mos WHERE reading_datetime < '2016-10-26';
+ count 
+-------
+     0
+(1 row)
+
+
+crss_table_partitioning=# select count(1) from only txn_stl_final_monthly_historical13mos;
+  count  
+---------
+ 1582170
+(1 row)
+
+
+
+
+

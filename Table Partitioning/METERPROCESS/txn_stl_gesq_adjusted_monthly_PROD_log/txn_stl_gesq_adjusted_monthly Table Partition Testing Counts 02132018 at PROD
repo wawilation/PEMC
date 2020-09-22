@@ -1,0 +1,41 @@
+/*bash-4.2$ echo $FINAL_DATE_c3mos
+2017-10-26
+bash-4.2$ echo $FINAL_DATE_h13mos
+2016-09-26*/
+
+/***********txn_stl_gesq_adjusted_monthly***********/
+/**TOTAL**/
+crss=# select count(1) from only txn_stl_gesq_adjusted_monthly;
+--0
+
+crss=# select count(1) from only txn_stl_gesq_adjusted_monthly_c3mos;
+--41,099,332
+
+
+crss=# select count(1) from only txn_stl_gesq_adjusted_monthly_h13mos;
+--0
+
+
+/***ACTUALLY CURRENT***/
+crss=# SELECT COUNT(1) FROM meterprocess.txn_stl_gesq_adjusted_monthly_c3mos WHERE reading_datetime >= '2017-10-26';
+--0
+
+/**current3mos to move to historical13mos**/
+crss=# SELECT COUNT(1) FROM meterprocess.txn_stl_gesq_adjusted_monthly_c3mos WHERE reading_datetime < '2017-10-26';
+--41,099,332
+
+select '' + '' = ''
+
+/**historical13mos to move to archive file**/
+crss=# SELECT COUNT(1) FROM meterprocess.txn_stl_gesq_adjusted_monthly_c3mos WHERE created_date_time < '2016-09-26';
+--0
+
+
+----AFTER CRON JOB RUN
+crss=# select count(1) from only txn_stl_gesq_adjusted_monthly_c3mos;
+--0 
+
+crss=# select count(1) from only txn_stl_gesq_adjusted_monthly_h13mos;
+--41,099,332
+
+

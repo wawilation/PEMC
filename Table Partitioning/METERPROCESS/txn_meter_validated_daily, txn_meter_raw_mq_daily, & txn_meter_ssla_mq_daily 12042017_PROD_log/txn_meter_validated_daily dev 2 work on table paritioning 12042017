@@ -1,0 +1,377 @@
+/****txn_meter_validated_daily****/
+1.)
+CREATE TABLE txn_meter_validated_daily_2 (
+    id bigint NOT NULL,
+    consumed boolean,
+    created_date_time timestamp without time zone,
+    estimation_flag character varying(255),
+    ian double precision,
+    ian_channel_status integer,
+    ian_interval_status integer,
+    ibn double precision,
+    ibn_channel_status integer,
+    ibn_interval_status integer,
+    icn double precision,
+    icn_channel_status integer,
+    icn_interval_status integer,
+    kvarhd double precision,
+    kvarhd_channel_status integer,
+    kvarhd_interval_status integer,
+    kvarhr double precision,
+    kvarhr_channel_status integer,
+    kvarhr_interval_status integer,
+    kwd double precision,
+    kwd_channel_status integer,
+    kwd_interval_status integer,
+    kwhd double precision,
+    kwhd_channel_status integer,
+    kwhd_interval_status integer,
+    kwhr double precision,
+    kwhr_channel_status integer,
+    kwhr_interval_status integer,
+    kwr double precision,
+    kwr_channel_status integer,
+    kwr_interval_status integer,
+    meter_data_id bigint,
+    msp_shortname character varying(255),
+    pf double precision,
+    pf_channel_status integer,
+    pf_interval_status integer,
+    reading_datetime timestamp without time zone,
+    sein character varying(255),
+    van double precision,
+    van_channel_status integer,
+    van_interval_status integer,
+    vbn double precision,
+    vbn_channel_status integer,
+    vbn_interval_status integer,
+    vcn double precision,
+    vcn_channel_status integer,
+    vcn_interval_status integer,
+    agreement_end_dt timestamp without time zone,
+    agreement_start_dt timestamp without time zone,
+    direct_member_id bigint,
+    direct_member_name character varying(255),
+    direct_member_shortname character varying(255),
+    embedded character varying(255),
+    facility_id bigint,
+    facility_type character varying(255),
+    grid_off_tk_end_dt character varying(255),
+    grid_off_tk_start_dt character varying(255),
+    grid_off_tk character varying(255),
+    load_channels character varying(255),
+    membership_cat character varying(255),
+    membership_type character varying(255),
+    meter_type character varying(255),
+    reg_msp_short_name character varying(255),
+    reserve_category character varying(255),
+    trade_participant_application_status character varying(255),
+    trade_participant_id bigint,
+    trade_participant_name character varying(255),
+    trade_participant_short_name character varying(255),
+    ian_max double precision,
+    ian_min double precision,
+    ian_validation_status character varying(255),
+    ibn_max double precision,
+    ibn_min double precision,
+    ibn_validation_status character varying(255),
+    icn_max double precision,
+    icn_min double precision,
+    icn_validation_status character varying(255),
+    kvarhd_max double precision,
+    kvarhd_min double precision,
+    kvarhd_validation_status character varying(255),
+    kvarhr_max double precision,
+    kvarhr_min double precision,
+    kvarhr_validation_status character varying(255),
+    kwd_max double precision,
+    kwd_min double precision,
+    kwd_validation_status character varying(255),
+    kwhd_max double precision,
+    kwhd_min double precision,
+    kwhd_validation_status character varying(255),
+    kwhr_max double precision,
+    kwhr_min double precision,
+    kwhr_validation_status character varying(255),
+    kwr_max double precision,
+    kwr_min double precision,
+    kwr_validation_status character varying(255),
+    pf_max double precision,
+    pf_min double precision,
+    pf_validation_status character varying(255),
+    sum_kwhd double precision,
+    sum_kwhr double precision,
+    validation_status character varying(255),
+    van_max double precision,
+    van_min double precision,
+    van_validation_status character varying(255),
+    vbn_max double precision,
+    vbn_min double precision,
+    vbn_validation_status character varying(255),
+    vcn_max double precision,
+    vcn_min double precision,
+    vcn_validation_status character varying(255)
+);
+
+
+ALTER TABLE txn_meter_validated_daily_2 OWNER TO crss_meterprocess;
+
+ALTER TABLE ONLY txn_meter_validated_daily_2
+    ADD CONSTRAINT txn_meter_validated_dailypk_2 PRIMARY KEY (id);
+
+CREATE INDEX d_rcoa_partition_idx_2 ON txn_meter_validated_daily_2 USING btree (meter_type);
+
+CREATE INDEX d_reading_datetime_idx_2 ON txn_meter_validated_daily_2 USING btree (reading_datetime);
+
+CREATE INDEX d_sein_reading_datetime_idx_2 ON txn_meter_validated_daily_2 USING btree (sein, reading_datetime);
+
+CREATE INDEX d_tp_shortname_idx_2 ON txn_meter_validated_daily_2 USING btree (trade_participant_short_name);
+
+CREATE INDEX d_tp_shortname_reading_datetime_idx_2 ON txn_meter_validated_daily_2 USING btree (trade_participant_short_name, reading_datetime);
+
+CREATE INDEX d_wesm_partition_idx_2 ON txn_meter_validated_daily_2 USING btree (sein, meter_type, reading_datetime);
+
+CREATE INDEX read_daily_idx_2 ON txn_meter_validated_daily_2 USING btree (reading_datetime);
+
+GRANT ALL ON TABLE txn_meter_validated_daily_2 TO crss_uat_user;
+
+
+2.)
+CREATE TABLE txn_meter_validated_daily_current3mos (
+) INHERITS (txn_meter_validated_daily_2); 
+
+ALTER TABLE txn_meter_validated_daily_current3mos OWNER TO crss_meterprocess;
+
+/***load data here, don't create indices yet for faster loading***/
+----Migrate from original table to "current 3 mos" partition
+INSERT INTO txn_meter_validated_daily_current3mos
+SELECT * FROM txn_meter_validated_daily;
+/*****************************************************************/
+
+ALTER TABLE ONLY txn_meter_validated_daily_current3mos
+    ADD CONSTRAINT txn_meter_validated_dailypk_current3mos PRIMARY KEY (id);
+
+CREATE INDEX d_rcoa_partition_idx_current3mos ON txn_meter_validated_daily_current3mos USING btree (meter_type);
+
+CREATE INDEX d_reading_datetime_idx_current3mos ON txn_meter_validated_daily_current3mos USING btree (reading_datetime);
+
+CREATE INDEX d_sein_reading_datetime_idx_current3mos ON txn_meter_validated_daily_current3mos USING btree (sein, reading_datetime);
+
+CREATE INDEX d_tp_shortname_idx_current3mos ON txn_meter_validated_daily_current3mos USING btree (trade_participant_short_name);
+
+CREATE INDEX d_tp_shortname_reading_datetime_idx_current3mos ON txn_meter_validated_daily_current3mos USING btree (trade_participant_short_name, reading_datetime);
+
+CREATE INDEX d_wesm_partition_idx_current3mos ON txn_meter_validated_daily_current3mos USING btree (sein, meter_type, reading_datetime);
+
+CREATE INDEX read_daily_idx_current3mos ON txn_meter_validated_daily_current3mos USING btree (reading_datetime);
+
+GRANT ALL ON TABLE txn_meter_validated_daily_current3mos TO crss_uat_user;
+
+3.)
+CREATE TABLE txn_meter_validated_daily_historical13mos (
+) INHERITS (txn_meter_validated_daily_2); 
+
+ALTER TABLE txn_meter_validated_daily_historical13mos OWNER TO crss_meterprocess;
+
+ALTER TABLE ONLY txn_meter_validated_daily_historical13mos
+    ADD CONSTRAINT txn_meter_validated_dailypk_historical13mos PRIMARY KEY (id);
+
+CREATE INDEX d_rcoa_partition_idx_historical13mos ON txn_meter_validated_daily_historical13mos USING btree (meter_type);
+
+CREATE INDEX d_reading_datetime_idx_historical13mos ON txn_meter_validated_daily_historical13mos USING btree (reading_datetime);
+
+CREATE INDEX d_sein_reading_datetime_idx_historical13mos ON txn_meter_validated_daily_historical13mos USING btree (sein, reading_datetime);
+
+CREATE INDEX d_tp_shortname_idx_historical13mos ON txn_meter_validated_daily_historical13mos USING btree (trade_participant_short_name);
+
+CREATE INDEX d_tp_shortname_reading_datetime_idx_historical13mos ON txn_meter_validated_daily_historical13mos USING btree (trade_participant_short_name, reading_datetime);
+
+CREATE INDEX d_wesm_partition_idx_historical13mos ON txn_meter_validated_daily_historical13mos USING btree (sein, meter_type, reading_datetime);
+
+CREATE INDEX read_daily_idx_historical13mos ON txn_meter_validated_daily_historical13mos USING btree (reading_datetime);
+
+GRANT ALL ON TABLE txn_meter_validated_daily_historical13mos TO crss_uat_user;
+
+
+/****txn_meter_raw_mq_daily****/
+1.)
+CREATE TABLE txn_meter_raw_mq_daily_2 (
+    id bigint NOT NULL,
+    created_datetime timestamp without time zone,
+    actual_grid_off_end_dt timestamp without time zone,
+    actual_grid_off_start_dt timestamp without time zone,
+    actual_grid_off_tk character varying(255),
+    allocation_pct double precision,
+    channel_config character varying(255),
+    meter_process_type character varying(255),
+    meter_type character varying(255),
+    mtn character varying(255),
+    mtn_active character(1),
+    mtn_config character varying(255),
+    mtn_config_mtn character varying(255),
+    mtn_facility_type character varying(255),
+    raw_mq_kvarh double precision,
+    raw_mq_kwh double precision,
+    version integer,
+    validated_id bigint
+);
+
+
+ALTER TABLE txn_meter_raw_mq_daily_2 OWNER TO crss_meterprocess;
+
+ALTER TABLE ONLY txn_meter_raw_mq_daily_2
+    ADD CONSTRAINT txn_meter_raw_mq_dailypk_2 PRIMARY KEY (id);
+
+CREATE INDEX d_ch_mtn_version_idx_2 ON txn_meter_raw_mq_daily_2 USING btree (channel_config, mtn_config, version);
+
+CREATE INDEX d_ch_version_idx_2 ON txn_meter_raw_mq_daily_2 USING btree (channel_config, version);
+
+CREATE INDEX d_mtn_config_mtn_idx_2 ON txn_meter_raw_mq_daily_2 USING btree (mtn_config_mtn, meter_process_type);
+
+CREATE INDEX d_validated_idx_2 ON txn_meter_raw_mq_daily_2 USING btree (validated_id);
+
+CREATE INDEX d_version_idx_2 ON txn_meter_raw_mq_daily_2 USING btree (version);
+
+CREATE INDEX mq_daily_idx_2 ON txn_meter_raw_mq_daily_2 USING btree (channel_config);
+
+GRANT ALL ON TABLE txn_meter_raw_mq_daily_2 TO crss_uat_user;
+
+
+2.)
+CREATE TABLE txn_meter_raw_mq_daily_current3mos (
+) INHERITS (txn_meter_raw_mq_daily_2);
+
+ALTER TABLE txn_meter_raw_mq_daily_current3mos OWNER TO crss_meterprocess;
+
+ALTER TABLE ONLY txn_meter_raw_mq_daily_current3mos ALTER COLUMN id SET DEFAULT nextval('txn_meter_raw_mq_daily_id_seq'::regclass);
+
+/***load data here, don't create indices yet for faster loading***/
+----Migrate from original table to "current 3 mos" partition
+INSERT INTO txn_meter_raw_mq_daily_current3mos
+SELECT * FROM txn_meter_raw_mq_daily;
+/*****************************************************************/
+
+ALTER TABLE ONLY txn_meter_raw_mq_daily_current3mos
+    ADD CONSTRAINT txn_meter_raw_mq_dailypk_current3mos PRIMARY KEY (id);
+
+CREATE INDEX d_ch_mtn_version_idx_current3mos ON txn_meter_raw_mq_daily_current3mos USING btree (channel_config, mtn_config, version);
+
+CREATE INDEX d_ch_version_idx_current3mos ON txn_meter_raw_mq_daily_current3mos USING btree (channel_config, version);
+
+CREATE INDEX d_mtn_config_mtn_idx_current3mos ON txn_meter_raw_mq_daily_current3mos USING btree (mtn_config_mtn, meter_process_type);
+
+CREATE INDEX d_validated_idx_current3mos ON txn_meter_raw_mq_daily_current3mos USING btree (validated_id);
+
+CREATE INDEX d_version_idx_current3mos ON txn_meter_raw_mq_daily_current3mos USING btree (version);
+
+CREATE INDEX mq_daily_idx_current3mos ON txn_meter_raw_mq_daily_current3mos USING btree (channel_config);
+
+ALTER TABLE ONLY txn_meter_raw_mq_daily_current3mos
+    ADD CONSTRAINT txn_meter_raw_mq_daily_current3mos_fk FOREIGN KEY (validated_id) REFERENCES txn_meter_validated_daily_current3mos(id);
+
+GRANT ALL ON TABLE txn_meter_raw_mq_daily_current3mos TO crss_uat_user;
+
+3.)
+CREATE TABLE txn_meter_raw_mq_daily_historical13mos (
+) INHERITS (txn_meter_raw_mq_daily_2);
+
+ALTER TABLE txn_meter_raw_mq_daily_historical13mos OWNER TO crss_meterprocess;
+
+ALTER TABLE ONLY txn_meter_raw_mq_daily_historical13mos ALTER COLUMN id SET DEFAULT nextval('txn_meter_raw_mq_daily_id_seq'::regclass);
+
+ALTER TABLE ONLY txn_meter_raw_mq_daily_historical13mos
+    ADD CONSTRAINT txn_meter_raw_mq_dailypk_historical13mos PRIMARY KEY (id);
+
+CREATE INDEX d_ch_mtn_version_idx_historical13mos ON txn_meter_raw_mq_daily_historical13mos USING btree (channel_config, mtn_config, version);
+
+CREATE INDEX d_ch_version_idx_historical13mos ON txn_meter_raw_mq_daily_historical13mos USING btree (channel_config, version);
+
+CREATE INDEX d_mtn_config_mtn_idx_historical13mos ON txn_meter_raw_mq_daily_historical13mos USING btree (mtn_config_mtn, meter_process_type);
+
+CREATE INDEX d_validated_idx_historical13mos ON txn_meter_raw_mq_daily_historical13mos USING btree (validated_id);
+
+CREATE INDEX d_version_idx_historical13mos ON txn_meter_raw_mq_daily_historical13mos USING btree (version);
+
+CREATE INDEX mq_daily_idx_historical13mos ON txn_meter_raw_mq_daily_historical13mos USING btree (channel_config);
+
+ALTER TABLE ONLY txn_meter_raw_mq_daily_historical13mos
+    ADD CONSTRAINT txn_meter_raw_mq_daily_historical13mos_fk FOREIGN KEY (validated_id) REFERENCES txn_meter_validated_daily_historical13mos(id);
+
+GRANT ALL ON TABLE txn_meter_raw_mq_daily_historical13mos TO crss_uat_user;
+
+
+
+/****txn_meter_ssla_mq_daily****/
+1.)
+CREATE TABLE txn_meter_ssla_mq_daily_2 (
+    id bigint NOT NULL,
+    created_datetime timestamp without time zone,
+    core_loss double precision,
+    copper_loss double precision,
+    i_line double precision,
+    kw_adj double precision,
+    kvar_line_loss double precision,
+    kw_line_loss double precision,
+    location character varying(255),
+    meter_process_type character varying(255),
+    pf_lv double precision,
+    pfm_active double precision,
+    pfm_reactive double precision,
+    previous_tot_adj double precision,
+    r_line double precision,
+    sslf double precision,
+    tot_adj double precision,
+    version integer,
+    x_line double precision,
+    daily_mq_id bigint
+);
+
+ALTER TABLE txn_meter_ssla_mq_daily_2 OWNER TO crss_meterprocess;
+
+ALTER TABLE ONLY txn_meter_ssla_mq_daily_2
+    ADD CONSTRAINT txn_meter_ssla_mq_dailypk_2 PRIMARY KEY (id);
+
+GRANT ALL ON TABLE txn_meter_ssla_mq_daily_2 TO crss_uat_user;
+
+
+2.)
+CREATE TABLE txn_meter_ssla_mq_daily_current3mos (
+ ) INHERITS (txn_meter_ssla_mq_daily_2);
+
+ALTER TABLE txn_meter_ssla_mq_daily_current3mos OWNER TO crss_meterprocess;
+
+ALTER TABLE ONLY txn_meter_ssla_mq_daily_current3mos ALTER COLUMN id SET DEFAULT nextval('txn_meter_ssla_mq_daily_id_seq'::regclass);
+
+/***load data here, don't create indices yet for faster loading***/
+----Migrate from original table to "current 3 mos" partition
+INSERT INTO txn_meter_ssla_mq_daily_current3mos
+SELECT * FROM txn_meter_ssla_mq_daily;
+/*****************************************************************/
+
+ALTER TABLE ONLY txn_meter_ssla_mq_daily_current3mos
+    ADD CONSTRAINT txn_meter_ssla_mq_dailypk_current3mos PRIMARY KEY (id);
+
+ALTER TABLE ONLY txn_meter_ssla_mq_daily_current3mos
+    ADD CONSTRAINT txn_meter_ssla_mq_daily_current3mos_fk FOREIGN KEY (daily_mq_id) REFERENCES txn_meter_raw_mq_daily_current3mos(id);
+
+GRANT ALL ON TABLE txn_meter_ssla_mq_daily_current3mos TO crss_uat_user;
+
+3.)
+CREATE TABLE txn_meter_ssla_mq_daily_historical13mos (
+ ) INHERITS (txn_meter_ssla_mq_daily_2);
+
+ALTER TABLE txn_meter_ssla_mq_daily_historical13mos OWNER TO crss_meterprocess;
+
+ALTER TABLE ONLY txn_meter_ssla_mq_daily_historical13mos ALTER COLUMN id SET DEFAULT nextval('txn_meter_ssla_mq_daily_id_seq'::regclass);
+
+ALTER TABLE ONLY txn_meter_ssla_mq_daily_historical13mos
+    ADD CONSTRAINT txn_meter_ssla_mq_dailypk_historical13mos PRIMARY KEY (id);
+
+ALTER TABLE ONLY txn_meter_ssla_mq_daily_historical13mos
+    ADD CONSTRAINT txn_meter_ssla_mq_daily_historical13mos_fk FOREIGN KEY (daily_mq_id) REFERENCES txn_meter_raw_mq_daily_historical13mos(id);
+
+GRANT ALL ON TABLE txn_meter_ssla_mq_daily_historical13mos TO crss_uat_user;
+
+
+
+
